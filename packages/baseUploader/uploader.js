@@ -66,8 +66,8 @@ class AbstractUploader {
       )
         .then(response => response.json())
         .then((response) => {
-          if (response && response.result) {
-            resolve(response.result)
+          if (response && response.data) {
+            resolve(response.data)
           } else {
             const errorMsg = response.message || UNKNOWN_ERROR
             this.option.reject(new Error(errorMsg))
