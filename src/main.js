@@ -12,6 +12,7 @@ import store from './store'
 Vue.directive('highlight', (el) => {
   const blocks = el.querySelectorAll('pre code')
   blocks.forEach(block => {
+    hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'))
     hljs.highlightElement(block)
   })
 })
