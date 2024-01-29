@@ -2,7 +2,7 @@
 内部抽象组件，用于扩展上传行为, 默认提供`token`与`generalUrl`两个上传必经接口的调用能力
 
 ## 用法
-```vue
+```html
 // 定义
 import BaseUploader from '@leapmotor-design'
 

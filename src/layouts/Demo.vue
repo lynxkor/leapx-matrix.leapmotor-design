@@ -44,16 +44,18 @@ export default {
   },
   methods: {
     getApiDoc (value) {
-      let fileName = value.name
-      if (needConvertInitials.indexOf(value.name) > -1) {
-        fileName = value.name.replace(/^\S/, s => s.toUpperCase())
+      if (value && value.name) {
+        let fileName = value.name
+        if (needConvertInitials.indexOf(value.name) > -1) {
+          fileName = value.name.replace(/^\S/, s => s.toUpperCase())
+        }
+        import(`../../doc/${fileName}.md`).then(res => {
+          this.mdFile = res.default
+        }).catch((error) => {
+          console.log(error)
+          this.mdFile = ''
+        })
       }
-      import(`../../doc/${fileName}.md`).then(res => {
-        this.mdFile = res.default
-      }).catch((error) => {
-        console.log(error)
-        this.mdFile = ''
-      })
     }
   }
 }

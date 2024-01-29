@@ -46,10 +46,9 @@ class AbstractUploader {
 
   _fetchUploadInfo (file, option = {}) {
     return new Promise((resolve) => {
-      const { code, app } = this.option
+      const { app } = this.option
       const requestData = this._onBeforeRequest({
         params: {
-          code,
           fileName: option.fileName || file.name,
         },
         url: TOKEN_URL.replace('{app}/', `${app ? app + '/' : ''}`),
@@ -66,8 +65,8 @@ class AbstractUploader {
       )
         .then(response => response.json())
         .then((response) => {
-          if (response && response.result) {
-            resolve(response.result)
+          if (response && response.data) {
+            resolve(response.data)
           } else {
             const errorMsg = response.message || UNKNOWN_ERROR
             this.option.reject(new Error(errorMsg))
@@ -86,31 +85,11 @@ class AbstractUploader {
    */
   _getPath (option) {
     return new Promise((resolve) => {
-      const { app } = this.option
-      const requestData = this._onBeforeRequest({
-        params: {
-          code: this.option.code,
-          securityCheck: this.option.securityCheck,
-          download: 0,
-          ...option
-        },
-        url: GENERATE_URL.replace('{app}/', `${app ? app + '/' : ''}`)
-      })
-
-      fetch(
-        requestData.url,
-        {
-          body: JSON.stringify(requestData.params),
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-          },
-        }
-      )
+      fetch(GENERATE_URL + '?' + new URLSearchParams(option).toString())
         .then(response => response.json())
         .then((response) => {
-          if (response && response.result) {
-            resolve(response.result)
+          if (response && response.data) {
+            resolve(response.data)
           } else {
             const errorMsg = response.message || UNKNOWN_ERROR
             this.option.reject(new Error(errorMsg))

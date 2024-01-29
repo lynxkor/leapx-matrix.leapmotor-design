@@ -28,19 +28,18 @@ class OSSUploader extends BaseUploader {
       fileName: option.fileName
     }).then((res) => {
       this._initOSSUploader({
-        region: res.region,
-        accessKeyId: res.temporaryAccessKey,
-        accessKeySecret: res.temporaryAccessSecret,
-        stsToken: res.token,
-        bucket: res.bucketName,
-        endpoint: res.endPoint,
-        // endpoint: 'sts.cn-hangzhou.aliyuncs.com',
+        region: 'oss-cn-hangzhou',
+        accessKeyId: res.credentials.accessKeyId,
+        accessKeySecret: res.credentials.accessKeySecret,
+        stsToken: res.credentials.securityToken,
+        bucket: res.bucket,
+        // TODO refreshSTSToken, refreshSTSTokenInterval
       })
 
       // 上传
       this._upload(file, {
         ...option,
-        objectName: res.objectName,
+        objectName: file.name,
       })
     })
   }
@@ -63,7 +62,9 @@ class OSSUploader extends BaseUploader {
     // 上传
     this.OSSUploader.put(option.objectName, file).then((res) => {
       Promise.all([
-        this._getPath(this._pick(option, 'objectName', 'download', 'thumbnail')),
+        this._getPath({
+          key: option.objectName,
+        }),
         // this._getImgInfo(file)
       ])
         .then(([

@@ -72,7 +72,6 @@ class BaseUploaderManager {
       promiseList.push(new Promise((resolve, reject) => {
         new Uploader({
           ...options,
-          code: this.option.code,
           resolve,
           reject,
           onProgress

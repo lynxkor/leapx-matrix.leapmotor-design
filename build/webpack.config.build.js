@@ -1,6 +1,7 @@
 const { name } = require('../package.json')
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
@@ -72,11 +73,12 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new BundleAnalyzerPlugin()
     // new MiniCssExtractPlugin({
     //   // 类似 webpackOptions.output里面的配置 可以忽略
     //   filename: '[name].css',
     //   chunkFilename: '[id].css',
     // }),
     // new OptimizeCssAssetsPlugin()
-  ]
+  ],
 }

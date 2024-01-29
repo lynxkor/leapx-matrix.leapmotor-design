@@ -2,7 +2,7 @@
 Oss上传组件, 支持file对象、base64方式批量/单独上传文件
 
 ## 用法
-```vue
+```html
 <template>
   <div class="home">
     ossUploader page
@@ -19,8 +19,6 @@ Oss上传组件, 支持file对象、base64方式批量/单独上传文件
 import { OssUploader } from 'leapmotor-design'
 
 const uploader = OssUploader({
-  app: 'platform', // app名称
-  code: 'creative_ps_saas', // 业务code
   singleton: true, // 是否单例，默认true，非必需，单例后ossUploader构造函数仅生效一次，之后调用均返回第一次的实例
   securityCheck: false, // 是否需要图片校验，默认false
   onSuccess: (res) => { // 成功回调、非必需
