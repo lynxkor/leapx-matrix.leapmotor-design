@@ -4,7 +4,7 @@
 import { version } from '../package.json'
 import HelloWorld from '../packages/helloWorld/index.js'
 import OssUploader from '../packages/ossUploader/index'
-import Theme from '../packages/theme/index.scss'
+import '../packages/theme/index.scss'
 
 const components = {
   HelloWorld,
@@ -21,12 +21,11 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export { OssUploader }
-export { Theme }
+// export { Theme }
 export { HelloWorld }
 export default {
   version,
   install,
   HelloWorld,
   OssUploader,
-  Theme
 }
