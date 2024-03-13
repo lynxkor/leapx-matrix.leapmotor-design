@@ -64,6 +64,10 @@ export default {
           name: 'ossUploader',
           path: '/uploader/ossUploader'
         },
+        {
+          name: 'theme',
+          path: '/theme'
+        },
         // route-link end
       ],
       selectedKey: '',
@@ -75,7 +79,6 @@ export default {
   watch: {
     $route: {
       handler: function (val) {
-        console.log(val)
         this.selectedKey = val.name
         this.demoInfo = {
           name: val.name

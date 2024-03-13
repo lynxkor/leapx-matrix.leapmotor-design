@@ -13,6 +13,11 @@ const routes = [{
   name: 'ossUploader',
   component: () => import(
     '../views/uploader/ossUploader.vue')
+}, {
+  path: '/theme',
+  name: 'theme',
+  component: () => import(
+    '../views/Theme.vue')
 }]
 const router = new VueRouter({
   mode: 'history',
