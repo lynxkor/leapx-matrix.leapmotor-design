@@ -1,8 +1,8 @@
 {
-  "name": "leapmotor-design",
-  "version": "0.1.0",
+  "name": "@leapmotor/design",
+  "version": "0.1.0-alpha.2",
   "description": "A rich interaction, lightweight, high performance frontend library based on Vue.",
-  "main": "dist/leapmotor-design.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://git-external.leapmotor.com/business-front/webx/leapmotor-design"
@@ -23,14 +23,7 @@
     "url": "https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues"
   },
   "dependencies": {
-    "ali-oss": "^6.16.0",
-    "axios": "^0.27.2",
-    "babel-plugin-import": "^1.13.5",
-    "core-js-pure": "^3.24.1",
-    "element-ui": "^2.15.14",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "ali-oss": "^6.16.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.9",
@@ -46,8 +39,11 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-standard": "^8.0.1",
     "@vue/test-utils": "^1.0.3",
+    "axios": "^0.27.2",
     "babel-plugin-component": "^1.1.1",
     "babel-plugin-import": "^1.13.5",
+    "core-js-pure": "^3.24.1",
+    "element-ui": "^2.15.14",
     "eslint": "^8.56.0",
     "highlight.js": "^10.7.1",
     "html-loader": "^1.3.2",
@@ -59,7 +55,10 @@
     "sass": "^1.71.1",
     "sass-loader": "^10.5.2",
     "style-loader": "^2.0.0",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
     "vue-template-compiler": "^2.6.11",
+    "vuex": "^3.4.0",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^4.9.1"
   },

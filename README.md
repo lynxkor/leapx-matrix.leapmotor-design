@@ -15,3 +15,6 @@ TODO
 
 <!-- module list -->
 Issue 反馈： [点此](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues)
+
+## 发布命令
+ npm publish --registry=http://10.192.1.190:8081/repository/npm_it/
