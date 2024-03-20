@@ -1,4 +1,4 @@
-const { name } = require('../package.json')
+const { name, version } = require('../package.json')
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -16,7 +16,10 @@ module.exports = {
     publicPath: './',
     library: name, // 包名
     libraryTarget: 'umd',
-    umdNamedDefine: true // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define
+    umdNamedDefine: true, // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define
+    // 添加版本号到文件名
+    filename: `[name]@${version}.min.js`,
+    chunkFilename: `[name]@${version}.min.js`
   },
   externals: {
     vue: {
@@ -96,8 +99,8 @@ module.exports = {
     new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin({
       // 类似 webpackOptions.output里面的配置 可以忽略
-      filename: '[name].scss',
-      chunkFilename: '[id].scss',
+      filename: `[name]@${version}.scss`,
+      chunkFilename: `[id]@${version}.scss`,
     }),
     // new OptimizeCSSAssetsPlugin()
   ],
