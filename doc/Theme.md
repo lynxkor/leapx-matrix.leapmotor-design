@@ -4,7 +4,7 @@
 ## 用法
 在scss中的用法
 ```scss
-@import 'styles/leapmotor-design.scss';
+@import '@leapmotor/design/packages/theme/index.scss';
 
 // 直接使用
 .u-color {
@@ -24,7 +24,7 @@
 ```
 在js中使用
 ```javascript
-import style from 'styles/leapmotor-design.scss';
+import style from '@leapmotor/design/packages/theme/index.scss';
 
 console.log(style)
 ```
@@ -35,7 +35,7 @@ console.log(style)
 </template>
 
 <script>
-import theme from '../../packages/theme/index.scss'
+import theme from '@leapmotor/design/packages/theme/index.scss'
 
 export default {
   data () {

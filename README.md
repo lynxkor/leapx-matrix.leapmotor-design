@@ -3,7 +3,16 @@
 一个基于 Vue 的富交互、轻量级、高性能的前端组件库
 
 ## 安装
-TODO
+在使用的项目中新增.npmrc文件
+```
+# .npmrc 文件内容
+
+# 设置私有仓库的别名
+@leapmotor:registry=http://10.192.1.190:8081/repository/group_npm
+
+# 设置默认的npm registry（可选，如果你希望公共包从官方源下载）
+registry=https://registry.npmmirror.com/
+```
 
 ## 组件列表
 
