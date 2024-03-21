@@ -4,7 +4,7 @@
 
 ## 安装
 在使用的项目中新增.npmrc文件
-```
+```sh
 # .npmrc 文件内容
 
 # 设置私有仓库的别名
@@ -12,6 +12,11 @@
 
 # 设置默认的npm registry（可选，如果你希望公共包从官方源下载）
 registry=https://registry.npmmirror.com/
+
+```
+执行安装命令
+```sh
+npm i -D @leapmotor/design
 ```
 
 ## 组件列表
@@ -26,4 +31,6 @@ registry=https://registry.npmmirror.com/
 Issue 反馈： [点此](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues)
 
 ## 发布命令
- npm publish --registry=http://10.192.1.190:8081/repository/npm_it/
+```sh
+npm publish --registry=http://10.192.1.190:8081/repository/npm_it/
+```
