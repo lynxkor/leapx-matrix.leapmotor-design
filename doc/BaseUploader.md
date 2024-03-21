@@ -4,7 +4,7 @@
 ## 用法
 ```html
 // 定义
-import BaseUploader from '@leapmotor-design'
+import BaseUploader from '@leapmotor/design'
 
 /**
  * 上传实例
