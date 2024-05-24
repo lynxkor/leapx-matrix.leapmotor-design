@@ -28,7 +28,7 @@ class OSSUploader extends BaseUploader {
       fileName: option.fileName
     }).then((res) => {
       this._initOSSUploader({
-        region: 'oss-cn-hangzhou',
+        region: this.region || res.ossRegion || 'oss-cn-hangzhou',
         accessKeyId: res.credentials.accessKeyId,
         accessKeySecret: res.credentials.accessKeySecret,
         stsToken: res.credentials.securityToken,
