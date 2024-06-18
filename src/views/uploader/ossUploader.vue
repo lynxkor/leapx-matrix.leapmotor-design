@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="m-ossUploader">
     ossUploader page
     <input
       type="file"
@@ -25,7 +25,7 @@ const uploader = OssUploader({
   region: 'oss-cn-hangzhou-internal',
   // 请求钩子，可对url、params进行定制
   onBeforeRequest: (url, params) => {
-    params.custom = 'custom data'
+    // params.custom = 'custom data'
     return { url, params }
   },
   onSuccess: (res) => { // 成功回调、非必需

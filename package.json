@@ -1,6 +1,6 @@
 {
   "name": "@leapmotor/design",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A rich interaction, lightweight, high performance frontend library based on Vue.",
   "main": "src/index.js",
   "repository": {
@@ -23,7 +23,8 @@
     "url": "https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues"
   },
   "dependencies": {
-    "ali-oss": "^6.16.0"
+    "ali-oss": "^6.16.0",
+    "moment": "^2.30.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.9",

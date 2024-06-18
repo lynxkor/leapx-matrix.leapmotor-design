@@ -48,9 +48,6 @@ class AbstractUploader {
     return new Promise((resolve) => {
       const { app } = this.option
       const requestData = this._onBeforeRequest({
-        params: {
-          fileName: option.fileName || file.name,
-        },
         url: TOKEN_URL.replace('{app}/', `${app ? app + '/' : ''}`),
       })
       fetch(
