@@ -1,5 +1,5 @@
 # Change Log
-## v0.1.2
+## v0.1.3
 _2024.06.18_
 
 - `ossUploader`实现单例并增加STS刷新功能

@@ -14,10 +14,10 @@ class OSSUploader extends BaseUploader {
   constructor (option = {}) {
     if (!instance) {
       super()
-      this.option = option
       instance = this
     }
-
+    
+    instance.option = option
     return instance
   }
 
