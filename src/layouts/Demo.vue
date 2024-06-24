@@ -18,7 +18,7 @@
 </template>
 
 <script>
-const needConvertInitials = ['ossUploader', 'theme']
+const needConvertInitials = ['ossUploader', 'theme', 'logger']
 export default {
   props: {
     demoInfo: {

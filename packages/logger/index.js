@@ -12,7 +12,7 @@ function createUniqueString () {
 
 class LPLogger {
   constructor (option = {}) {
-    this.sort = 0
+    this.sort = 1
     this.option = { ...option, pid: createUniqueString() + new Date().getTime() }
     this.list = this.__getLoadLocalStorage()
     this.sort = this.list.length
