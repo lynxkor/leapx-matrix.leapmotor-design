@@ -11,13 +11,15 @@ const routes = [{
 }, {
   path: '/uploader/ossUploader',
   name: 'ossUploader',
-  component: () => import(
-    '../views/uploader/ossUploader.vue')
+  component: () => import('../views/uploader/ossUploader.vue')
 }, {
   path: '/theme',
   name: 'theme',
-  component: () => import(
-    '../views/Theme.vue')
+  component: () => import('../views/Theme.vue')
+}, {
+  path: '/logger',
+  name: 'logger',
+  component: () => import('../views/Logger.vue')
 }]
 const router = new VueRouter({
   mode: 'history',

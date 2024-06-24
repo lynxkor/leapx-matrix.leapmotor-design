@@ -14,7 +14,6 @@ exportsConfig.lintOnSave = 'warning'
 
 exportsConfig.devServer = {
   host: '0.0.0.0', // 本地开发域名
-  proxy: 'http://localhost:4000', // 配置跨域处理,只有一个代理
   disableHostCheck: true,
   proxy: {
     '/api': {

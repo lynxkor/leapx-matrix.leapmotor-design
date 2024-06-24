@@ -68,6 +68,10 @@ export default {
           name: 'theme',
           path: '/theme'
         },
+        {
+          name: 'logger',
+          path: '/logger'
+        },
         // route-link end
       ],
       selectedKey: '',
