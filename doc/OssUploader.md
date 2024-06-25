@@ -16,7 +16,7 @@ Oss上传组件, 支持file对象、base64方式批量/单独上传文件
 </template>
 
 <script>
-import { OssUploader } from 'leapmotor-design'
+import { OssUploader } from '@leapmotor/design'
 
 const uploader = OssUploader({
   singleton: true, // 是否单例，默认true，非必需，单例后ossUploader构造函数仅生效一次，之后调用均返回第一次的实例

@@ -1,6 +1,6 @@
-const { name, version } = require('../package.json')
+const name = 'index'
 const path = require('path')
-const { VueLoaderPlugin } = require('vue-loader')
+// const { VueLoaderPlugin } = require('vue-loader')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -17,18 +17,15 @@ module.exports = {
     library: name, // 包名
     libraryTarget: 'umd',
     umdNamedDefine: true, // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define
-    // 添加版本号到文件名
-    filename: `[name]@${version}.min.js`,
-    chunkFilename: `[name]@${version}.min.js`
   },
-  externals: {
-    vue: {
-      root: 'Vue',
-      commonjs: 'vue',
-      commonjs2: 'vue',
-      amd: 'vue'
-    }
-  },
+  // externals: {
+  //   vue: {
+  //     root: 'Vue',
+  //     commonjs: 'vue',
+  //     commonjs2: 'vue',
+  //     amd: 'vue'
+  //   }
+  // },
   module: {
     rules: [
       {
@@ -64,10 +61,10 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
+      // {
+      //   test: /\.vue$/,
+      //   loader: 'vue-loader'
+      // },
       {
         test: /\.(svg)(\?.*)?$/,
         use: [
@@ -95,12 +92,12 @@ module.exports = {
   //   ],
   // },
   plugins: [
-    new VueLoaderPlugin(),
+    // new VueLoaderPlugin(),
     new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin({
       // 类似 webpackOptions.output里面的配置 可以忽略
-      filename: `[name]@${version}.scss`,
-      chunkFilename: `[id]@${version}.scss`,
+      filename: '[name].scss',
+      chunkFilename: '[id].scss',
     }),
     // new OptimizeCSSAssetsPlugin()
   ],
