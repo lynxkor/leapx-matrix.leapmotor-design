@@ -4,6 +4,9 @@
 import axios from 'axios'
 import moment from 'moment'
 
+const LOG_LOCAL_STORAGE_KEY = '__LP_LOGGER_LIST__'
+const LOG_LOCAL_LOAD_KEY = '__LP_LOGGER_LOAD__'
+
 function createUniqueString () {
   const timestamp = +new Date() + ''
   const randomNum = parseInt((1 + Math.random()) * 65536) + ''
@@ -14,7 +17,7 @@ class LPLogger {
   constructor (option = {}) {
     this.sort = 1
     this.option = { ...option, pid: createUniqueString() + new Date().getTime() }
-    this.list = this.__getLoadLocalStorage()
+    this.list = [...this.__getLocalStorage(), ...this.__getLoadLocalStorage()]
     this.sort = this.list.length
     this.timeout = null
   }
@@ -29,7 +32,7 @@ class LPLogger {
 
   report (data) {
     this.list.push(this.__logAssign(data))
-    localStorage.setItem('__LP_LOGGER_LIST__', JSON.stringify(this.list))
+    localStorage.setItem(LOG_LOCAL_STORAGE_KEY, JSON.stringify(this.list))
 
     if (!this.timeout) {
       this.timeout = setTimeout(() => {
@@ -39,21 +42,27 @@ class LPLogger {
   }
 
   __request () {
-    axios.post(this.option.url, this.__getLocalStorage())
+    axios.post(this.option.url, this.list)
       .then(() => {
-        this.list = []
+        // 这里不做清空处理，可能在请求时又有新的日志生成
+        // 当没有新日志生成时，list为空，可以理解为执行了清空操作
+        localStorage.setItem(LOG_LOCAL_STORAGE_KEY, JSON.stringify(this.list))
       })
       .finally(() => {
         clearTimeout(this.timeout)
         this.timeout = null
       })
+    this.list = []
   }
 
+  /**
+   * 获取本地未及时上报的日志
+   */
   __getLocalStorage () {
     let list = []
     try {
-      list = JSON.parse(localStorage.getItem('__LP_LOGGER_LIST__'))
-      localStorage.removeItem('__LP_LOGGER_LIST__')
+      list = JSON.parse(localStorage.getItem(LOG_LOCAL_STORAGE_KEY))
+      localStorage.removeItem(LOG_LOCAL_STORAGE_KEY)
       if (!Array.isArray(list)) {
         list = []
       }
@@ -63,11 +72,14 @@ class LPLogger {
     return list
   }
 
+  /**
+   * 获取sdk未加载时的日志
+   */
   __getLoadLocalStorage () {
     let list = []
     try {
-      list = JSON.parse(localStorage.getItem('__LP_LOGGER_LOAD__'))
-      localStorage.removeItem('__LP_LOGGER_LOAD__')
+      list = JSON.parse(localStorage.getItem(LOG_LOCAL_LOAD_KEY))
+      localStorage.removeItem(LOG_LOCAL_LOAD_KEY)
       if (!Array.isArray(list)) {
         list = []
       } else {
@@ -95,7 +107,7 @@ class LPLogger {
     return {
       ...data,
       level,
-      message
+      message: JSON.stringify(message),
     }
   }
 }
