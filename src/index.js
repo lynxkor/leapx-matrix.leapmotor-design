@@ -5,7 +5,7 @@ import { version } from '../package.json'
 // import HelloWorld from '../packages/helloWorld/index.js'
 import OssUploader from '../packages/ossUploader/index'
 import Theme from '../packages/theme/index.scss'
-import LPLogger from '../packages/logger/index'
+// import LPLogger from '../packages/logger/index'
 
 // const components = {
 //   HelloWorld,
@@ -23,7 +23,7 @@ import LPLogger from '../packages/logger/index'
 
 export { OssUploader }
 export { Theme }
-export { LPLogger }
+// export { LPLogger }
 // export { HelloWorld }
 export default {
   version,
@@ -31,5 +31,5 @@ export default {
   // HelloWorld,
   OssUploader,
   Theme,
-  LPLogger
+  // LPLogger
 }

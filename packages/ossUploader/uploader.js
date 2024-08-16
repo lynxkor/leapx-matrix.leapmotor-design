@@ -4,21 +4,14 @@ import BaseUploader from '../baseUploader/uploader'
 /**
  * 上传实例
  */
-let instance
 class OSSUploader extends BaseUploader {
-
   /**
    * @description: 构造函数
    * @param {*} option
    */
   constructor (option = {}) {
-    if (!instance) {
-      super()
-      instance = this
-    }
-    
-    instance.option = option
-    return instance
+    super()
+    this.option = option
   }
 
   /**
@@ -41,7 +34,7 @@ class OSSUploader extends BaseUploader {
           bucket: res.bucket,
           refreshSTSToken: async () => {
             // 向您搭建的STS服务获取临时访问凭证。
-            const info = await this._fetchUploadInfo();
+            const info = await this._fetchUploadInfo()
             return {
               accessKeyId: info.credentials.accessKeyId,
               accessKeySecret: info.credentials.accessKeySecret,
@@ -51,14 +44,23 @@ class OSSUploader extends BaseUploader {
           },
           refreshSTSTokenInterval: new Date(res.credentials.expiration).getTime() - new Date().getTime() - 1000 // 留1s兜底
         })
-  
       })
+    }
+
+    let objectName
+    if (file.name.includes('.')) {
+      const list = file.name.split('.')
+      const name = list.slice(0, -1).join('.')
+      const ext = list.pop()
+      objectName = name + '_' + new Date().getTime() + `.${ext}`
+    } else {
+      objectName = file.name + '_' + new Date().getTime()
     }
 
     // 上传
     this._upload(file, {
       ...option,
-      objectName: file.name,
+      objectName
     })
   }
 
@@ -95,6 +97,7 @@ class OSSUploader extends BaseUploader {
               ...res,
               url,
               objectName: option.objectName,
+              name: file.name
             })
         })
     }).catch((e) => {

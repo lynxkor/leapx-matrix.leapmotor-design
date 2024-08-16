@@ -1,4 +1,10 @@
 # Change Log
+## v0.1.4-alpha.5
+_2024.08.16_
+
+- `ossUploader`修复多实例上传问题
+- `ossUploader`新增设置文件不覆盖时，objectName增加时间戳
+
 ## v0.1.3
 _2024.06.18_
 
