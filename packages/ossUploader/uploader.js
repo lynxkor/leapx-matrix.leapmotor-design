@@ -97,6 +97,7 @@ class OSSUploader extends BaseUploader {
               ...res,
               url,
               objectName: option.objectName,
+              name: file.name
             })
         })
     }).catch((e) => {
