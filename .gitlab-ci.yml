@@ -1,0 +1,22 @@
+default:
+  tags:
+    - docker-runner
+ 
+stages:
+  - tidy
+ 
+sca:
+  stage: tidy
+  image: itharbor.leapmotor.com/iov-dev/gitlab-runner-ci:latest
+  before_script:
+    - echo "sca start"
+  after_script:
+    - echo "sca done"
+  script:
+    - python3 /opt/sca/lp_sca.py --dir $CI_PROJECT_DIR --keep --branch $CI_COMMIT_BRANCH
+  only:
+    - push
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev"
+      when: always
