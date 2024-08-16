@@ -47,10 +47,20 @@ class OSSUploader extends BaseUploader {
       })
     }
 
+    let objectName
+    if (file.name.includes('.')) {
+      const list = file.name.split('.')
+      const name = list.slice(0, -1).join('.')
+      const ext = list.pop()
+      objectName = name + '_' + new Date().getTime() + `.${ext}`
+    } else {
+      objectName = file.name + '_' + new Date().getTime()
+    }
+
     // 上传
     this._upload(file, {
       ...option,
-      objectName: file.name,
+      objectName
     })
   }
 

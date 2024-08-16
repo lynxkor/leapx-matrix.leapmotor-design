@@ -1,8 +1,9 @@
 # Change Log
-## v0.1.4-alpha.2
+## v0.1.4-alpha.4
 _2024.08.16_
 
-- `ossUploader`实现单例并增加STS刷新功能
+- `ossUploader`修复多实例上传问题
+- `ossUploader`新增设置文件不覆盖时，objectName增加时间戳
 
 ## v0.1.3
 _2024.06.18_

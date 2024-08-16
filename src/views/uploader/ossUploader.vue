@@ -22,6 +22,7 @@ import base64Content from './base64'
 const uploader = OssUploader({
   singleton: true, // 是否单例，默认true，非必需，单例后OssUploader构造函数仅生效一次，之后调用均返回第一次的实例
   securityCheck: false,
+  overwrite: false,
   region: 'oss-cn-hangzhou-internal',
   // 请求钩子，可对url、params进行定制
   onBeforeRequest: (url, params) => {

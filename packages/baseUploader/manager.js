@@ -55,7 +55,8 @@ class BaseUploaderManager {
     options = Object.assign({
       options: [],
       securityCheck: false,
-      ...pick(this.option, 'onSuccess', 'onError', 'onProgress', 'securityCheck', 'app', 'onBeforeRequest')
+      overwrite: true,
+      ...pick(this.option, 'onSuccess', 'onError', 'onProgress', 'securityCheck', 'app', 'onBeforeRequest', 'overwrite')
     }, options)
     const promiseList = []
     const onProgress = this._progress(options.onProgress).calcu
