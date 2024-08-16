@@ -4,21 +4,14 @@ import BaseUploader from '../baseUploader/uploader'
 /**
  * 上传实例
  */
-let instance
 class OSSUploader extends BaseUploader {
-
   /**
    * @description: 构造函数
    * @param {*} option
    */
   constructor (option = {}) {
-    if (!instance) {
-      super()
-      instance = this
-    }
-    
-    instance.option = option
-    return instance
+    super()
+    this.option = option
   }
 
   /**
@@ -41,7 +34,7 @@ class OSSUploader extends BaseUploader {
           bucket: res.bucket,
           refreshSTSToken: async () => {
             // 向您搭建的STS服务获取临时访问凭证。
-            const info = await this._fetchUploadInfo();
+            const info = await this._fetchUploadInfo()
             return {
               accessKeyId: info.credentials.accessKeyId,
               accessKeySecret: info.credentials.accessKeySecret,
@@ -51,7 +44,6 @@ class OSSUploader extends BaseUploader {
           },
           refreshSTSTokenInterval: new Date(res.credentials.expiration).getTime() - new Date().getTime() - 1000 // 留1s兜底
         })
-  
       })
     }
 

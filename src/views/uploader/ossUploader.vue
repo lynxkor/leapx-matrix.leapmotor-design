@@ -68,18 +68,7 @@ export default {
           console.log('error', res)
         },
         // 优先级同上
-        securityCheck: true,
-        options: [{
-          fileName: 'test_oss.png', // 上传成功后返回的文件名，非必需
-          download: 1, // 是否已下载链接形式返回，默认0，非必需
-          thumbnail: {
-            width: 200,
-            height: 200,
-          }
-        }, {
-          fileName: 'test_oss.png', // 上传成功后返回的文件名，非必需
-          download: 1 // 是否已下载链接形式返回，默认0，非必需
-        }]
+        securityCheck: true
       })
       // 单文件上传
       // uploader.upload(e.target.files[0], {
