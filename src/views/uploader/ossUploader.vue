@@ -56,6 +56,7 @@ export default {
     onChange (e) {
       // 批量上传
       uploader.uploads(e.target.files, {
+        options: Array.from({ length: e.target.files.length }, () => { return { headers: { test: 'test' } } }),
         onProgress: (data) => {
           // 优先级高于 progress global
           console.log('progress', data)

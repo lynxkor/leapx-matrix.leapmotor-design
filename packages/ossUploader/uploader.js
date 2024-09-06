@@ -25,7 +25,7 @@ class OSSUploader extends BaseUploader {
   async upload (file, option) {
     // 获取上传凭证、分区信息
     if (!this.OSSUploader) {
-      await this._fetchUploadInfo().then((res) => {
+      await this._fetchUploadInfo(option).then((res) => {
         this._initOSSUploader({
           region: this.region || res.ossRegion || 'oss-cn-hangzhou',
           accessKeyId: res.credentials.accessKeyId,
@@ -34,7 +34,7 @@ class OSSUploader extends BaseUploader {
           bucket: res.bucket,
           refreshSTSToken: async () => {
             // 向您搭建的STS服务获取临时访问凭证。
-            const info = await this._fetchUploadInfo()
+            const info = await this._fetchUploadInfo(option)
             return {
               accessKeyId: info.credentials.accessKeyId,
               accessKeySecret: info.credentials.accessKeySecret,
@@ -83,6 +83,7 @@ class OSSUploader extends BaseUploader {
     this.OSSUploader.put(option.objectName, file).then((res) => {
       Promise.all([
         this._getPath({
+          ...option,
           key: option.objectName,
         }),
         // this._getImgInfo(file)

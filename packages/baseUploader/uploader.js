@@ -44,7 +44,7 @@ class AbstractUploader {
     return data
   }
 
-  _fetchUploadInfo (file, option = {}) {
+  _fetchUploadInfo ({ headers }) {
     return new Promise((resolve) => {
       const { app } = this.option
       const requestData = this._onBeforeRequest({
@@ -57,6 +57,7 @@ class AbstractUploader {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
+            ...headers
           },
         }
       )
@@ -82,7 +83,9 @@ class AbstractUploader {
    */
   _getPath (option) {
     return new Promise((resolve) => {
-      fetch(GENERATE_URL + '?' + new URLSearchParams(option).toString())
+      fetch(GENERATE_URL + '?' + new URLSearchParams(option).toString(), {
+        headers: option.headers
+      })
         .then(response => response.json())
         .then((response) => {
           if (response && response.data) {
