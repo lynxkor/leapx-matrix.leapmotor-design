@@ -1,6 +1,7 @@
 # leapmotor-design
 
 一个基于 Vue 的富交互、轻量级、高性能的前端组件库
+SCA test
 
 ## 安装
 在使用的项目中新增.npmrc文件
