@@ -1,5 +1,5 @@
 # Change Log
-## v0.1.4-alpha.5
+## v0.1.4
 _2024.09.06_
 - `ossUploader` STS接口增加自定义header
 

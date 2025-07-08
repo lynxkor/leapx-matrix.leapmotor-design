@@ -16,10 +16,6 @@ const routes = [{
   path: '/theme',
   name: 'theme',
   component: () => import('../views/Theme.vue')
-}, {
-  path: '/logger',
-  name: 'logger',
-  component: () => import('../views/Logger.vue')
 }]
 const router = new VueRouter({
   mode: 'history',
