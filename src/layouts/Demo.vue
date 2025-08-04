@@ -18,7 +18,7 @@
 </template>
 
 <script>
-const needConvertInitials = ['ossUploader', 'theme']
+const needConvertInitials = ['ossUploader', 'theme', 'validator']
 export default {
   props: {
     demoInfo: {
@@ -29,7 +29,8 @@ export default {
   data () {
     return {
       api: {},
-      mdFile: ''
+      mdFile: '',
+      context: require.context('../../doc', false, /\.md$/)
     }
   },
   watch: {
@@ -49,12 +50,8 @@ export default {
         if (needConvertInitials.indexOf(value.name) > -1) {
           fileName = value.name.replace(/^\S/, s => s.toUpperCase())
         }
-        import(`../../doc/${fileName}.md`).then(res => {
-          this.mdFile = res.default
-        }).catch((error) => {
-          console.log(error)
-          this.mdFile = ''
-        })
+
+        this.mdFile = this.context(`./${fileName}.md`)
       }
     }
   }

@@ -16,7 +16,12 @@ const routes = [{
   path: '/theme',
   name: 'theme',
   component: () => import('../views/Theme.vue')
+}, {
+  path: '/validator',
+  name: 'validator',
+  component: () => import('../views/Validator.vue')
 }]
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

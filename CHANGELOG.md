@@ -1,4 +1,9 @@
 # Change Log
+## v0.1.5
+_2025.07.08_
+- 添加jest单元测试支持
+- 新增逻辑组件`validator`
+
 ## v0.1.4
 _2024.09.06_
 - `ossUploader` STS接口增加自定义header

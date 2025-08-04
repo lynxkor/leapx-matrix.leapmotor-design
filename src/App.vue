@@ -68,6 +68,10 @@ export default {
           name: 'theme',
           path: '/theme'
         },
+        {
+          name: 'validator',
+          path: '/validator'
+        }
         // route-link end
       ],
       selectedKey: '',
