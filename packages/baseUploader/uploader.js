@@ -48,7 +48,7 @@ class AbstractUploader {
     return new Promise((resolve) => {
       const { app } = this.option
       const requestData = this._onBeforeRequest({
-        url: TOKEN_URL.replace('{app}/', `${app ? app + '/' : ''}`),
+        url: TOKEN_URL.replace('{app}', `${app || ''}`),
       })
       fetch(
         requestData.url,
@@ -83,7 +83,9 @@ class AbstractUploader {
    */
   _getPath (option) {
     return new Promise((resolve) => {
-      fetch(GENERATE_URL + '?' + new URLSearchParams(option).toString(), {
+      const { app } = this.option
+      const url = GENERATE_URL.replace('{app}', `${app || ''}`)
+      fetch(url + '?' + new URLSearchParams(option).toString(), {
         headers: option.headers
       })
         .then(response => response.json())
