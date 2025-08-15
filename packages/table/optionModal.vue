@@ -63,7 +63,7 @@
         <div ref="grid" class="grid-container">
           <div v-for="col in filteredCols" :key="col.props" class="grid-item">
             <svg class="icon u-move-icon" aria-hidden="true">
-              <use xlink:href="#icon-leapmotor-designmove"></use>
+              <use xlink:href="#icon-leapmotor-design-move"></use>
             </svg><el-checkbox :key="col.props" :label="col.props" :disabled="col.disabled">{{ col.label }}</el-checkbox>
           </div>
         </div>
@@ -270,7 +270,7 @@ export default {
 
   .u-move-icon {
     width: 16px;
-    height: 18px;
+    height: 22px;
     display: inline-block;
     vertical-align: top;
     margin-right: 4px;
