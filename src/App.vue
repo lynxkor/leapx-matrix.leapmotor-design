@@ -69,9 +69,9 @@ export default {
           path: '/theme'
         },
         {
-          name: 'logger',
-          path: '/logger'
-        },
+          name: 'validator',
+          path: '/validator'
+        }
         // route-link end
       ],
       selectedKey: '',

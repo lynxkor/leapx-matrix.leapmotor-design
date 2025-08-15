@@ -1,4 +1,22 @@
 # Change Log
+## v0.1.6
+_2025.08.04_
+- `ossUploader` STS接口增加自定义app
+
+## v0.1.5
+_2025.07.08_
+- 添加jest单元测试支持
+- 新增逻辑组件`validator`
+
+## v0.1.4
+_2024.09.06_
+- `ossUploader` STS接口增加自定义header
+
+_2024.08.16_
+
+- `ossUploader`修复多实例上传问题
+- `ossUploader`新增设置文件不覆盖时，objectName增加时间戳
+
 ## v0.1.3
 _2024.06.18_
 

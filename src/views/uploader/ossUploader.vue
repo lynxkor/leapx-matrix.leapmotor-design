@@ -22,6 +22,7 @@ import base64Content from './base64'
 const uploader = OssUploader({
   singleton: true, // 是否单例，默认true，非必需，单例后OssUploader构造函数仅生效一次，之后调用均返回第一次的实例
   securityCheck: false,
+  overwrite: false,
   region: 'oss-cn-hangzhou-internal',
   // 请求钩子，可对url、params进行定制
   onBeforeRequest: (url, params) => {
@@ -55,6 +56,7 @@ export default {
     onChange (e) {
       // 批量上传
       uploader.uploads(e.target.files, {
+        options: Array.from({ length: e.target.files.length }, () => { return { headers: { test: 'test' } } }),
         onProgress: (data) => {
           // 优先级高于 progress global
           console.log('progress', data)
@@ -68,18 +70,7 @@ export default {
           console.log('error', res)
         },
         // 优先级同上
-        securityCheck: true,
-        options: [{
-          fileName: 'test_oss.png', // 上传成功后返回的文件名，非必需
-          download: 1, // 是否已下载链接形式返回，默认0，非必需
-          thumbnail: {
-            width: 200,
-            height: 200,
-          }
-        }, {
-          fileName: 'test_oss.png', // 上传成功后返回的文件名，非必需
-          download: 1 // 是否已下载链接形式返回，默认0，非必需
-        }]
+        securityCheck: true
       })
       // 单文件上传
       // uploader.upload(e.target.files[0], {
