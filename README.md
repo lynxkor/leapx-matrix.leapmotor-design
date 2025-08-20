@@ -19,6 +19,21 @@ registry=https://registry.npmmirror.com/
 npm i -D @leapmotor/design
 ```
 
+## 开发
+```bash
+# 配置项目
+npm link
+
+# 进入项目目录
+cd xxxx
+
+# 引用项目设置软链接
+npm link @leapmotor/design
+
+# 取消引用项目软链接
+npm unlink @leapmotor/design
+```
+
 ## 组件列表
 
 | Type     | Name                                                                                                                    | Description          | Author                     |

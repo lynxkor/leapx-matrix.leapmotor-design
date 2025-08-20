@@ -162,8 +162,6 @@ export default {
 </style>
 
 <style lang="scss">
-@import "~./assets/css/base.scss";
-
 :root {
   --red: #f10000;
   --warn: #fa0;

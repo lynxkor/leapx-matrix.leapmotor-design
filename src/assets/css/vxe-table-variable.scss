@@ -1,0 +1,4 @@
+@use 'vxe-table/styles/variable.scss' as vxe_table_variable with (
+  $vxe-ui-font-primary-color: var(--themColor)
+);
+@use 'vxe-table/styles/all.scss' as vxe_table_all;

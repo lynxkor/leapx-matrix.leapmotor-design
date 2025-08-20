@@ -4,6 +4,7 @@
 import hljs from 'highlight.js'
 import 'highlight.js/styles/xcode.css'
 
+import './assets/css/base.scss'
 import './assets/css/element-variables.scss'
 import Vue from 'vue'
 import App from './App.vue'
@@ -26,6 +27,7 @@ import {
 // 导入主题变量，也可以重写主题变量
 import 'vxe-table/styles/cssvar.scss'
 import 'vxe-pc-ui/styles/base.scss'
+import './assets/css/vxe-table-variable.scss'
 
 // 导入默认的语言
 import zhCN from 'vxe-table/lib/locale/lang/zh-CN'
