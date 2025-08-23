@@ -20,7 +20,7 @@
         :size="config.layout === LAYOUT_MIN.value ? 'mini' : 'medium'"
         :column-config="{ resizable: config.layout === LAYOUT_CUSTOM.value, autoOptions: { isCalcHeader: false, isCalcBody: true, isCalcFooter: true } }"
         :custom-config="customConfig"
-        :virtual-y-config="{enabled: true, gt: 99}"
+        :virtual-y-config="{enabled: true, gt: 99, mode: 'wheel', oSize: 3}"
         :virtual-x-config="{enabled: !config.autoWrap, gt: 10}"
         :radio-config="{strict: false}"
         height="100%"
@@ -446,6 +446,16 @@ export default {
     cursor: pointer;
     color: #07b56a;
   }
+}
+
+/* 在全局样式中添加 */
+.vxe-table--render-wrapper {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.vxe-table--body-wrapper {
+  transform: translateZ(0);
 }
 </style>
 
