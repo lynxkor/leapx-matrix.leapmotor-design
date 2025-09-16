@@ -123,7 +123,7 @@ export default {
     },
     pageSizes: {
       type: Array,
-      default: () => [10, 20, 50, 100]
+      default: () => [1, 20, 50, 100]
     },
     getConfig: {
       type: Function,
@@ -189,7 +189,12 @@ export default {
           this.mixConfig(val)
         }
       }
-    }
+    },
+    'optionObj.form.page': {
+      handler (val) {
+        this.currentPage = val
+      }
+    },
   },
   created () {
     this.getStorageData()
