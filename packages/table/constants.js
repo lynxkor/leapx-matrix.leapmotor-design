@@ -12,3 +12,5 @@ export const DEFAULT_CONFIG = {
 }
 
 export const COL_TYPE_OPERATE = 'operate'
+
+export const COL_PARAMS_MASK = 'mask'

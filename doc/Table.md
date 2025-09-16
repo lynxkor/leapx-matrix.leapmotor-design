@@ -26,6 +26,8 @@
 | dataProp.visible | 是否显示 | boolean | true | 否 | - |
 | dataProp.disabled | 禁止变更显示状态 | boolean | false | 否 | - |
 | dataProp.width | 列宽 | number | - | 否 | - |
+| dataProp.mask | 是否脱敏字段，会显示小眼睛，需搭配getValue使用 | boolean | false | 否 | - |
+| dataProp.getValue | 获取脱敏字段值，同步方法，暂不支持异步返回结果 | function | - | 否 | - |
 | type | 列类型 | string | - | 否 | operate: 按钮操作列 |
 | buttons | 按钮配置项 | array | - | 否 | - |
 | total | 总数 | number | - | 是 | - |

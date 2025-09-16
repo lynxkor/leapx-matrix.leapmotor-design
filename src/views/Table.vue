@@ -38,7 +38,7 @@ export default {
         },
         dataProp: [
           { props: 'id', label: 'ID', width: 300, visible: true },
-          { props: 'name', label: 'Name', visible: true },
+          { props: 'name', label: 'Name', visible: true, mask: true, getValue: row => row.fullName },
           {
             props: 'operate',
             label: 'Operate',
@@ -90,7 +90,8 @@ export default {
         this.optionObj.dataList = [
           {
             id: 1,
-            name: '张三'
+            name: '张**',
+            fullName: '张三'
           },
           {
             id: '22222222222222222222222222222222222222222222222',

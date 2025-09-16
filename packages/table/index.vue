@@ -41,15 +41,12 @@
           :align="item.align || 'center'"
         >
           <template #default="{ row, rowIndex }">
-            <span v-if="!item.buttons">
-              {{ row[item.props] }}
-            </span>
-            <template v-else>
+            <template v-if="item.buttons">
               <span
                 v-for="(button, buttonIndex) in item.buttons"
                 v-show="row.cols[item.props][buttonIndex].show"
                 :key="buttonIndex"
-                :class="['u-button', `z-${button.type}`, {
+                :class="['u-button', button.type ? `z-${button.type}`: '', {
                   'z-ellipsis': item.type !== COL_TYPE_OPERATE,
                   'z-disabled': row.cols[item.props][buttonIndex].disabled
                 }]"
@@ -58,6 +55,12 @@
                 {{ button.name || row[item.props] }}
               </span>
             </template>
+            <template v-else-if="item[COL_PARAMS_MASK]">
+              <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span> <span class="u-button z-primary" @click="doMaskCol(row, item.props)">{{ row[item.props].masked ? '显示' : '隐藏' }}</span>
+            </template>
+            <span v-else>
+              {{ row[item.props] }}
+            </span>
           </template>
         </vxe-column>
       </vxe-table>
@@ -85,7 +88,7 @@
 
 <script>
 import OptionModal from './optionModal'
-import { LAYOUT_MIN, LAYOUT_DEFAULT, LAYOUT_CUSTOM, DEFAULT_CONFIG, COL_TYPE_OPERATE } from './constants'
+import { LAYOUT_MIN, LAYOUT_DEFAULT, LAYOUT_CUSTOM, DEFAULT_CONFIG, COL_TYPE_OPERATE, COL_PARAMS_MASK } from './constants'
 import { deepClone } from '../utils/index'
 
 export default {
@@ -151,6 +154,7 @@ export default {
         }
       },
       COL_TYPE_OPERATE,
+      COL_PARAMS_MASK,
       tableCode: this.optionObj.id,
       isConfigReady: false,
       isFirstMixConfig: false,
@@ -179,7 +183,7 @@ export default {
 
         return col
       })
-    },
+    }
   },
   watch: {
     'optionObj.dataList': {
@@ -361,6 +365,7 @@ export default {
 
         this.optionObj.dataProp.forEach(prop => {
           let buttons
+          // 拼接按钮
           if (prop.buttons) {
             buttons = prop.buttons.map(button => {
               const temp = {}
@@ -378,6 +383,11 @@ export default {
 
               return temp
             })
+          } else if (prop[COL_PARAMS_MASK]) {
+            item[prop.props] = {
+              value: item[prop.props],
+              masked: true
+            }
           }
 
           item.cols[prop.props] = buttons
@@ -391,6 +401,17 @@ export default {
         acc.set(item.props, item.label)
         return acc
       }, new Map())
+    },
+    doMaskCol (row, colKey) {
+      if (!row[colKey].masked) {
+        row[colKey].masked = true
+        return
+      }
+
+      const cloneRow = deepClone(row)
+      cloneRow[colKey] = row[colKey].value
+      row[colKey].fullValue = this.optionObj.dataProp.find(item => item.props === colKey).getValue(cloneRow)
+      row[colKey].masked = false
     }
   }
 }
@@ -400,10 +421,13 @@ export default {
 .m-vxe-table {
   position: relative;
 
-  .u-button {
-    margin-right: 8px;
+  span {
     display: inline-block;
     vertical-align: middle;
+  }
+
+  .u-button {
+    margin-right: 8px;
     cursor: pointer;
     box-sizing: border-box;
 
