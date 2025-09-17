@@ -56,7 +56,11 @@
               </span>
             </template>
             <template v-else-if="item[COL_PARAMS_MASK]">
-              <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span> <span class="u-button z-primary" @click="doMaskCol(row, item.props)">{{ row[item.props].masked ? '显示' : '隐藏' }}</span>
+              <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span>
+              <svg class="icon u-mask-icon" aria-hidden="true" @click="doMaskCol(row, item.props)">
+                <use v-if="row[item.props].masked" xlink:href="#icon-leapmotor-design-eye-open"></use>
+                <use v-else xlink:href="#icon-leapmotor-design-eye-close"></use>
+              </svg>
             </template>
             <span v-else>
               {{ row[item.props] }}
@@ -421,9 +425,11 @@ export default {
 .m-vxe-table {
   position: relative;
 
-  span {
-    display: inline-block;
-    vertical-align: middle;
+  .u-mask-icon {
+    vertical-align: text-top;
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
   }
 
   .u-button {
