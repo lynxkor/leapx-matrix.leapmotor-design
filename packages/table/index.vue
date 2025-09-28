@@ -42,18 +42,19 @@
         >
           <template #default="{ row, rowIndex }">
             <template v-if="item.buttons">
-              <span
-                v-for="(button, buttonIndex) in item.buttons"
-                v-show="row.cols[item.props][buttonIndex].show"
-                :key="buttonIndex"
-                :class="['u-button', button.type ? `z-${button.type}`: '', {
-                  'z-ellipsis': item.type !== COL_TYPE_OPERATE,
-                  'z-disabled': row.cols[item.props][buttonIndex].disabled
-                }]"
-                @click="() => !(row.cols[item.props][buttonIndex].disabled) && button.click(rowIndex, row)"
-              >
-                {{ button.name || row[item.props] }}
-              </span>
+              <template v-for="(button, buttonIndex) in item.buttons">
+                <span
+                  v-if="row.cols[item.props][buttonIndex].show"
+                  :key="buttonIndex"
+                  :class="['u-button', button.type ? `z-${button.type}`: '', {
+                    'z-ellipsis': item.type !== COL_TYPE_OPERATE,
+                    'z-disabled': row.cols[item.props][buttonIndex].disabled
+                  }]"
+                  @click="() => !(row.cols[item.props][buttonIndex].disabled) && button.click(rowIndex, row)"
+                >
+                  {{ button.name || row[item.props] }}
+                </span>
+              </template>
             </template>
             <template v-else-if="item[COL_PARAMS_MASK]">
               <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span>

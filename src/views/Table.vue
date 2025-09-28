@@ -59,6 +59,15 @@ export default {
               show: row => {
                 return row.id === 1
               }
+            }, {
+              name: '删除',
+              type: 'danger',
+              click: () => {
+                alert('删除')
+              },
+              show: row => {
+                return row.id === 2
+              }
             }]
           }
         ],
@@ -94,7 +103,7 @@ export default {
             fullName: '张三'
           },
           {
-            id: '22222222222222222222222222222222222222222222222',
+            id: 2,
             name: '李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四'
           }
         ]
