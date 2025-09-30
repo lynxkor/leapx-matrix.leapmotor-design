@@ -50,7 +50,10 @@ export default {
               click: () => {
                 alert('编辑')
               },
-              type: 'primary'
+              type: 'primary',
+              show: row => {
+                return row.id < 4
+              }
             }, {
               name: '详情',
               click: () => {
@@ -67,6 +70,33 @@ export default {
               },
               show: row => {
                 return row.id === 2
+              }
+            }, {
+              name: '测试一',
+              click: () => {
+                alert('测试一')
+              },
+              type: 'primary',
+              show: row => {
+                return row.id < 4
+              }
+            }, {
+              name: '测试二',
+              click: () => {
+                alert('测试二')
+              },
+              type: 'primary',
+              show: row => {
+                return row.id < 2
+              }
+            }, {
+              name: '测试三',
+              click: () => {
+                alert('测试三')
+              },
+              type: 'primary',
+              show: row => {
+                return row.id < 4
               }
             }]
           }
@@ -105,6 +135,10 @@ export default {
           {
             id: 2,
             name: '李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四'
+          },
+          {
+            id: 3,
+            name: '测试'
           }
         ]
         this.optionObj.total = 2

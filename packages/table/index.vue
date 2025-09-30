@@ -15,7 +15,6 @@
         :id="tableCode"
         ref="tableRef"
         :show-header-overflow="false"
-        :show-overflow="!config.autoWrap"
         :data="optionObj.dataList"
         :size="config.layout === LAYOUT_MIN.value ? 'mini' : 'medium'"
         :column-config="{ resizable: config.layout === LAYOUT_CUSTOM.value, autoOptions: { isCalcHeader: false, isCalcBody: true, isCalcFooter: true } }"
@@ -39,22 +38,52 @@
           :width="item.type === COL_TYPE_OPERATE ? 'auto' : item.layoutWidth"
           :fixed="item.type === COL_TYPE_OPERATE ? (config.isOperateFixed ? 'right' : '') : item.fixed"
           :align="item.align || 'center'"
+          :show-overflow="item.type !== COL_TYPE_OPERATE && !config.autoWrap"
         >
           <template #default="{ row, rowIndex }">
             <template v-if="item.buttons">
-              <template v-for="(button, buttonIndex) in item.buttons">
-                <span
-                  v-if="row.cols[item.props][buttonIndex].show"
-                  :key="buttonIndex"
-                  :class="['u-button', button.type ? `z-${button.type}`: '', {
-                    'z-ellipsis': item.type !== COL_TYPE_OPERATE,
-                    'z-disabled': row.cols[item.props][buttonIndex].disabled
-                  }]"
-                  @click="() => !(row.cols[item.props][buttonIndex].disabled) && button.click(rowIndex, row)"
-                >
-                  {{ button.name || row[item.props] }}
+              <div
+                :set="tempData = {
+                  visibleButtonLength: 0,
+                  loopButtonIndex: 0
+                }"
+              >
+                <template v-for="(button, buttonIndex) in item.buttons">
+                  <span
+                    v-if="row.cols[item.props].buttons[buttonIndex].show && (row.cols[item.props].showLength <= 3 || tempData.visibleButtonLength < 2)"
+                    :key="buttonIndex"
+                    :set="tempData = {
+                      visibleButtonLength: tempData.visibleButtonLength + 1,
+                      loopButtonIndex: buttonIndex
+                    }"
+                    :class="['u-button', button.type ? `z-${button.type}`: '', {
+                      'z-ellipsis': item.type !== COL_TYPE_OPERATE,
+                      'z-disabled': row.cols[item.props].buttons[buttonIndex].disabled
+                    }]"
+                    @click="() => !(row.cols[item.props].buttons[buttonIndex].disabled) && button.click(rowIndex, row)"
+                  >
+                    {{ button.name || row[item.props] }}
+                  </span>
+                </template>
+                <span class="u-botton-more" v-if="row.cols[item.props].showLength > 3">
+                  更多<i class="el-icon-arrow-down"></i><i class="el-icon-arrow-up"></i>
+                  <div class="m-buttons-more">
+                    <template v-for="(button, buttonIndex) in item.buttons.slice(tempData.loopButtonIndex + 1)">
+                      <div
+                        v-if="row.cols[item.props].buttons[tempData.loopButtonIndex + 1 + buttonIndex].show"
+                        :key="`more${buttonIndex}`"
+                        :class="['u-button', button.type ? `z-${button.type}`: '', {
+                          'z-ellipsis': item.type !== COL_TYPE_OPERATE,
+                          'z-disabled': row.cols[item.props].buttons[tempData.loopButtonIndex + 1 + buttonIndex].disabled
+                        }]"
+                        @click="() => !(row.cols[item.props].buttons[tempData.loopButtonIndex + 1 + buttonIndex].disabled) && button.click(rowIndex, row)"
+                      >
+                        {{ button.name || row[item.props] }}
+                      </div>
+                    </template>
+                  </div>
                 </span>
-              </template>
+              </div>
             </template>
             <template v-else-if="item[COL_PARAMS_MASK]">
               <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span>
@@ -372,6 +401,7 @@ export default {
           let buttons
           // 拼接按钮
           if (prop.buttons) {
+            let showLength = 0
             buttons = prop.buttons.map(button => {
               const temp = {}
               if (button.show) {
@@ -379,6 +409,8 @@ export default {
               } else {
                 temp.show = true
               }
+
+              temp.show && showLength++
 
               if (button.disabled) {
                 temp.disabled = typeof button.disabled === 'function' && button.disabled(item)
@@ -388,14 +420,17 @@ export default {
 
               return temp
             })
+
+            item.cols[prop.props] = {
+              buttons,
+              showLength
+            }
           } else if (prop[COL_PARAMS_MASK]) {
             item[prop.props] = {
               value: item[prop.props],
               masked: true
             }
           }
-
-          item.cols[prop.props] = buttons
         })
       })
 
@@ -448,18 +483,34 @@ export default {
 
     &.z-primary {
       color: #07b56a;
+
+      &:hover {
+        color: #08c975;
+      }
     }
 
     &.z-success {
       color: #67c23a;
+
+      &:hover {
+        color: #85ce61;
+      }
     }
 
     &.z-warning {
       color: #e6a23c;
+
+      &:hover {
+        color: #ebb563;
+      }
     }
 
     &.z-danger {
       color: #f56c6c;
+
+      &:hover {
+        color: #f78989;
+      }
     }
 
     &.z-disabled {
@@ -478,9 +529,54 @@ export default {
     vertical-align: middle;
   }
 
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #07b56a;
+  .u-botton-more {
+    .el-icon-arrow-down {
+      margin-left: 5px;
+      display: inline;
+    }
+
+    .el-icon-arrow-up {
+      margin-left: 5px;
+      display: none;
+    }
+
+    &:hover {
+      .m-buttons-more {
+        display: inline;
+      }
+
+      .el-icon-arrow-down {
+        display: none;
+      }
+
+      .el-icon-arrow-up {
+        display: inline;
+      }
+    }
+  }
+
+  .m-buttons-more {
+    display: none;
+    position: absolute;
+    right: 10px;
+    background-color: #fff;
+    z-index: 1;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    padding: 5px 0;
+
+    .u-button {
+      margin-right: 0;
+      padding: 5px 15px;
+      margin-bottom: 2px;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
