@@ -22,6 +22,7 @@
         :virtual-y-config="{enabled: true, gt: 99, mode: 'wheel', oSize: 3}"
         :virtual-x-config="{enabled: !config.autoWrap, gt: 10}"
         :radio-config="{strict: false}"
+        :row-class-name="rowClassName"
         height="100%"
         @checkbox-change="selectChangeEvent"
         @checkbox-all="selectChangeEvent"
@@ -161,6 +162,10 @@ export default {
     pageSizes: {
       type: Array,
       default: () => [1, 20, 50, 100]
+    },
+    rowClassName: {
+      type: [String, Function],
+      default: null
     },
     getConfig: {
       type: Function,
