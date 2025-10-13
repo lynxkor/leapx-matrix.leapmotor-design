@@ -18,7 +18,7 @@
 <script>
 import VxeTable from '../../packages/table/index.vue'
 
-const size = 20
+const size = 500
 const mockConfig = {
   data: null
 }
@@ -39,6 +39,13 @@ export default {
         dataProp: [
           { props: 'id', label: 'ID', width: 300, visible: true },
           { props: 'name', label: 'Name', visible: true, mask: true, getValue: row => row.fullName },
+          ...Array.from(Array(40), (_, i) => {
+            return {
+              props: `test${i}`,
+              label: `test${i}`,
+              visible: true
+            }
+          }),
           {
             props: 'operate',
             label: 'Operate',
@@ -52,7 +59,7 @@ export default {
               },
               type: 'primary',
               show: row => {
-                return row.id < 4
+                return row.id < 400
               }
             }, {
               name: '详情',
@@ -78,7 +85,7 @@ export default {
               },
               type: 'primary',
               show: row => {
-                return row.id < 4
+                return row.id < 400
               }
             }, {
               name: '测试二',
@@ -87,7 +94,7 @@ export default {
               },
               type: 'primary',
               show: row => {
-                return row.id < 2
+                return row.id < 200
               }
             }, {
               name: '测试三',
@@ -96,7 +103,7 @@ export default {
               },
               type: 'primary',
               show: row => {
-                return row.id < 4
+                return row.id < 400
               }
             }]
           }
@@ -130,18 +137,44 @@ export default {
           {
             id: 1,
             name: '张**',
-            fullName: '张三'
+            fullName: '张三',
+            ...Array.from(Array(40), (_, i) => i)
+              .reduce((acc, num) => {
+                acc[`test${num}`] = `测试${num}`
+                return acc
+              }, {})
           },
           {
             id: 2,
-            name: '李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四'
+            name: '李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四李四',
+            ...Array.from(Array(40), (_, i) => i)
+              .reduce((acc, num) => {
+                acc[`test${num}`] = `测试${num}`
+                return acc
+              }, {})
           },
           {
             id: 3,
-            name: '测试'
-          }
+            name: '王五',
+            ...Array.from(Array(40), (_, i) => i)
+              .reduce((acc, num) => {
+                acc[`test${num}`] = `测试${num}`
+                return acc
+              }, {})
+          },
+          ...Array.from(Array(497), (_, i) => {
+            return {
+              id: i + 4,
+              name: '姓名' + i,
+              ...Array.from(Array(40), (_, i) => i)
+                .reduce((acc, num) => {
+                  acc[`test${num}`] = `测试${num}`
+                  return acc
+                }, {})
+            }
+          }),
         ]
-        this.optionObj.total = 2
+        this.optionObj.total = 500
       })
     },
     getConfig () {
@@ -162,3 +195,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.m-table {
+  height: 500px;
+}
+</style>
