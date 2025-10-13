@@ -15,7 +15,9 @@ import { Button, Pagination, Dialog, Col, Row, Input, Checkbox, CheckboxGroup, R
 
 import {
   VxeUi,
-  VxeTooltip
+  VxeTooltip,
+  VxeButton,
+  VxeIcon
 } from 'vxe-pc-ui'
 
 import {
@@ -54,6 +56,8 @@ Vue.use(VxeTable)
 Vue.use(VxeTooltip)
 Vue.use(VxeColumn)
 Vue.use(VxeToolbar)
+Vue.use(VxeButton)
+Vue.use(VxeIcon)
 Vue.use(Loading.directive) // 注册 v-loading 指令
 
 Vue.directive('highlight', (el) => {

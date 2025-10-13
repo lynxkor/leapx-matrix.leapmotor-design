@@ -44,20 +44,21 @@
           <template #default="{ row, rowIndex }">
             <template v-if="item.buttons">
               <div
-                :set="tempData = {
+                :set="row.tempData = {
                   visibleButtonLength: 0,
                   loopButtonIndex: 0
                 }"
               >
                 <template v-for="(button, buttonIndex) in item.buttons">
                   <span
-                    v-if="row.cols[item.props].buttons[buttonIndex].show && (row.cols[item.props].showLength <= 3 || tempData.visibleButtonLength < 2)"
+                    v-if="row.cols[item.props].buttons[buttonIndex].show && (row.cols[item.props].showLength <= maxButtonVisibleLength || row.tempData.visibleButtonLength < (maxButtonVisibleLength - 1))"
+                    type="text"
                     :key="buttonIndex"
-                    :set="tempData = {
-                      visibleButtonLength: tempData.visibleButtonLength + 1,
+                    :set="row.tempData = {
+                      visibleButtonLength: row.tempData.visibleButtonLength + 1,
                       loopButtonIndex: buttonIndex
                     }"
-                    :class="['u-button', button.type ? `z-${button.type}`: '', {
+                    :class="['u-lp-table-button', button.type ? `z-${button.type}`: '', {
                       'z-ellipsis': item.type !== COL_TYPE_OPERATE,
                       'z-disabled': row.cols[item.props].buttons[buttonIndex].disabled
                     }]"
@@ -66,24 +67,28 @@
                     {{ button.name || row[item.props] }}
                   </span>
                 </template>
-                <span class="u-botton-more" v-if="row.cols[item.props].showLength > 3">
-                  更多<i class="el-icon-arrow-down"></i><i class="el-icon-arrow-up"></i>
-                  <div class="m-buttons-more">
-                    <template v-for="(button, buttonIndex) in item.buttons.slice(tempData.loopButtonIndex + 1)">
+                <vxe-button
+                  v-if="row.cols[item.props].showLength > maxButtonVisibleLength"
+                  class="u-button-more"
+                  mode="text"
+                  content="更多"
+                >
+                  <template #dropdowns>
+                    <template v-for="(button, buttonIndex) in item.buttons.slice(row.tempData.loopButtonIndex + 1)">
                       <div
-                        v-if="row.cols[item.props].buttons[tempData.loopButtonIndex + 1 + buttonIndex].show"
+                        v-if="row.cols[item.props].buttons[row.tempData.loopButtonIndex + 1 + buttonIndex].show"
                         :key="`more${buttonIndex}`"
-                        :class="['u-button', button.type ? `z-${button.type}`: '', {
+                        :class="['u-lp-table-button', button.type ? `z-${button.type}`: '', {
                           'z-ellipsis': item.type !== COL_TYPE_OPERATE,
-                          'z-disabled': row.cols[item.props].buttons[tempData.loopButtonIndex + 1 + buttonIndex].disabled
+                          'z-disabled': row.cols[item.props].buttons[row.tempData.loopButtonIndex + 1 + buttonIndex].disabled
                         }]"
-                        @click="() => !(row.cols[item.props].buttons[tempData.loopButtonIndex + 1 + buttonIndex].disabled) && button.click(rowIndex, row)"
+                        @click="() => !(row.cols[item.props].buttons[row.tempData.loopButtonIndex + 1 + buttonIndex].disabled) && button.click(rowIndex, row)"
                       >
                         {{ button.name || row[item.props] }}
                       </div>
                     </template>
-                  </div>
-                </span>
+                  </template>
+                </vxe-button>
               </div>
             </template>
             <template v-else-if="item[COL_PARAMS_MASK]">
@@ -174,6 +179,10 @@ export default {
     saveOrUpdate: {
       type: Function,
       default: () => {}
+    },
+    maxButtonVisibleLength: {
+      type: Number,
+      default: 3
     }
   },
   data () {
@@ -473,7 +482,7 @@ export default {
     cursor: pointer;
   }
 
-  .u-button {
+  .u-lp-table-button {
     margin-right: 8px;
     cursor: pointer;
     box-sizing: border-box;
@@ -530,58 +539,78 @@ export default {
     top: -36px;
   }
 
-  .el-dropdown {
-    vertical-align: middle;
+  .u-button-more {
+    vertical-align: bottom;
+    font-size: 0;
+
+    .vxe-button.type--text {
+      padding: 1px 0;
+    }
+  }
+}
+
+.u-lp-table-button {
+  margin-right: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: inline-block;
+
+  &.z-ellipsis {
+    display: inline;
   }
 
-  .u-botton-more {
-    .el-icon-arrow-down {
-      margin-left: 5px;
-      display: inline;
-    }
+  &:last-child {
+    margin-right: 0;
+  }
 
-    .el-icon-arrow-up {
-      margin-left: 5px;
-      display: none;
-    }
+  &.z-primary {
+    color: #07b56a;
 
     &:hover {
-      .m-buttons-more {
-        display: inline;
-      }
-
-      .el-icon-arrow-down {
-        display: none;
-      }
-
-      .el-icon-arrow-up {
-        display: inline;
-      }
+      color: #08c975;
     }
   }
 
-  .m-buttons-more {
-    display: none;
-    position: absolute;
-    right: 10px;
-    background-color: #fff;
-    z-index: 1;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    padding: 5px 0;
+  &.z-success {
+    color: #67c23a;
 
-    .u-button {
-      margin-right: 0;
-      padding: 5px 15px;
-      margin-bottom: 2px;
-
-      &:hover {
-        background-color: #f5f5f5;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+    &:hover {
+      color: #85ce61;
     }
+  }
+
+  &.z-warning {
+    color: #e6a23c;
+
+    &:hover {
+      color: #ebb563;
+    }
+  }
+
+  &.z-danger {
+    color: #f56c6c;
+
+    &:hover {
+      color: #f78989;
+    }
+  }
+
+  &.z-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.vxe-button--dropdown-panel .u-lp-table-button {
+  display: block;
+  margin-right: 0;
+  line-height: 28px;
+  padding: 0 16px;
+  font-size: 14px;
+  // margin-bottom: 2px;
+
+  &:hover {
+    background-color: #f5f5f5;
   }
 }
 

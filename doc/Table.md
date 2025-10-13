@@ -12,6 +12,7 @@
 | pageSizes | 每页条数可选值 | array | [10, 20, 50, 100] | 否 |
 | getConfig | 获取表格配置项，在此处调用后端接口，返回Promise | function | - | 否 |
 | saveOrUpdate | 保存或更新，在此处调用后端接口，返回Promise | function | - | 否 |
+| maxButtonVisibleLength | 最多显示的按钮数量 | number | 3 | 否 |
 
 #### optionObj
 | 字段 | 说明 | 类型 | 默认值 | 是否必填 | 可选值 |
