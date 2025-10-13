@@ -547,6 +547,18 @@ export default {
       padding: 1px 0;
     }
   }
+
+  .size--mini {
+    .u-button-more {
+      .vxe-button.type--text {
+        padding: 1px 0 2px;
+      }
+    }
+
+    .vxe-button--dropdown-arrow {
+      font-size: 10px;
+    }
+  }
 }
 
 .u-lp-table-button {
