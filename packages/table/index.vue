@@ -541,20 +541,20 @@ export default {
 
   .u-button-more {
     vertical-align: bottom;
-    font-size: 0;
+    height: 22px;
 
     .vxe-button.type--text {
-      padding: 1px 0;
+      padding: 0;
+      vertical-align: baseline;
+
+      span {
+        line-height: 22px;
+        height: 22px;
+      }
     }
   }
 
   .size--mini {
-    .u-button-more {
-      .vxe-button.type--text {
-        padding: 1px 0 2px;
-      }
-    }
-
     .vxe-button--dropdown-arrow {
       font-size: 10px;
     }
