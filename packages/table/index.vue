@@ -23,10 +23,12 @@
         :virtual-x-config="{enabled: !config.autoWrap, gt: 10}"
         :radio-config="{strict: false}"
         :row-class-name="rowClassName"
+        :sort-config="{ remote: true, multiple: true }"
         height="100%"
         @checkbox-change="selectChangeEvent"
         @checkbox-all="selectChangeEvent"
         @radio-change="radioChangeEvent"
+        @sort-change="sortChangeEvent"
       >
         <vxe-column v-if="isCheckbox" :resizable="false" :fixed="checkboxFixed ? 'left' : ''" type="checkbox" width="40" />
         <vxe-column v-else-if="isRadio" :resizable="false" :fixed="checkboxFixed ? 'left' : ''" type="radio" width="40" />
@@ -40,6 +42,7 @@
           :fixed="item.type === COL_TYPE_OPERATE ? (config.isOperateFixed ? 'right' : '') : item.fixed"
           :align="item.align || 'center'"
           :show-overflow="item.type !== COL_TYPE_OPERATE && !config.autoWrap"
+          :sortable="item.sortable"
         >
           <template #default="{ row, rowIndex }">
             <template v-if="item.buttons">
@@ -263,6 +266,10 @@ export default {
     },
     radioChangeEvent () {
       this.$emit('handleSelect', this.$refs.tableRef.getRadioRecord())
+    },
+    sortChangeEvent ({ sortList }) {
+      // console.log('sortList', sortList)
+      this.$emit('sortChange', sortList)
     },
     handleOptionSubmit (config) {
       this.optionLoading = true
