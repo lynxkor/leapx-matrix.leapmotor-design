@@ -11,7 +11,8 @@
       :style="tableContainerStyle"
     >
       <vxe-table
-        v-if="!optionLoading"
+        v-if="isFirstMixConfig"
+        v-loading="loading"
         :id="tableCode"
         ref="tableRef"
         :show-header-overflow="false"
@@ -169,7 +170,7 @@ export default {
     },
     pageSizes: {
       type: Array,
-      default: () => [1, 20, 50, 100]
+      default: () => [10, 20, 50, 100]
     },
     rowClassName: {
       type: [String, Function],
@@ -186,6 +187,10 @@ export default {
     maxButtonVisibleLength: {
       type: Number,
       default: 3
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -239,8 +244,7 @@ export default {
   watch: {
     'optionObj.dataList': {
       handler (val) {
-        if (this.isConfigReady) {
-          this.isFirstMixConfig = true
+        if (this.isConfigReady && val.length !== 0) {
           this.mixConfig(val)
         }
       }
@@ -329,7 +333,7 @@ export default {
           })
         }
 
-        if (!this.isFirstMixConfig) {
+        if (!this.isFirstMixConfig && this.optionObj.dataList?.length !== 0) {
           this.mixConfig(this.optionObj.dataList)
         }
 
@@ -414,6 +418,7 @@ export default {
       button.click(rowIndex, row)
     },
     mixConfig (list) {
+      this.isFirstMixConfig = true
       // 避免虚拟滚动时重复执行方法带来消耗
       list.forEach(item => {
         item.cols = {}
@@ -455,7 +460,7 @@ export default {
         })
       })
 
-      console.log(list)
+      // console.log(list)
     },
     getVisibleCols () {
       return this.config.columnConfig.filter(item => item.visible).reduce((acc, item) => {

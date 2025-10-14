@@ -2,13 +2,14 @@
   <div class="m-table">
     <vxe-table
       ref="tableRef"
-      v-loading="loading"
+      :loading="loading"
       is-checkbox
       show-index
       is-page
       :option-obj="optionObj"
       :get-config="getConfig"
       :save-or-update="saveOrUpdate"
+      :pageSizes="[10, 50, 100, 500]"
       @paginationChange="paginationChange"
       @handleSelect="handleSelectionChange"
       @sortChange="sortChangeEvent"
@@ -176,7 +177,7 @@ export default {
           }),
         ]
         this.optionObj.total = 500
-      })
+      }, 400)
     },
     getConfig () {
       return new Promise((resolve, reject) => {
@@ -194,7 +195,15 @@ export default {
       })
     },
     sortChangeEvent (sortList) {
-      alert(JSON.stringify(sortList))
+      // alert(JSON.stringify(sortList))
+      this.getData({
+        sortList: sortList.map(({ field, order }) => {
+          return {
+            field,
+            order
+          }
+        })
+      })
     }
   }
 }
