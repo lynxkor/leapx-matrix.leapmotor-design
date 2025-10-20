@@ -224,7 +224,10 @@ export default {
       }
     },
     list () {
-      return this.optionObj.dataProp.filter((_, index) => this.config.columnConfig[index].visible).map(col => {
+      return this.optionObj.dataProp.filter((_, index) => {
+        const col = this.config.columnConfig[index]
+        return col.type === COL_TYPE_OPERATE || col.visible
+      }).map(col => {
         if (this.config.layout === LAYOUT_MIN.value) {
           col.layoutWidth = 72
         } else if (this.config.layout === LAYOUT_DEFAULT.value) {
