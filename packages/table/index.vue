@@ -25,7 +25,10 @@
         :radio-config="{strict: false}"
         :row-class-name="rowClassName"
         :sort-config="{ remote: true, multiple: true }"
-        height="100%"
+        max-height="100%"
+        border="inner"
+        stripe
+        :row-config="{isHover: true}"
         @checkbox-change="selectChangeEvent"
         @checkbox-all="selectChangeEvent"
         @radio-change="radioChangeEvent"
@@ -107,19 +110,25 @@
             </span>
           </template>
         </vxe-column>
+        <template #empty>
+          <div class="m-vxe-table-empty">
+            <img :src="require('./empty.png')" />
+            <p>暂无数据</p>
+          </div>
+        </template>
       </vxe-table>
+      <el-pagination
+        v-if="isPage"
+        style="float: right; padding-top: 16px;"
+        :current-page.sync="currentPage"
+        :page-size="optionObj.form.size"
+        layout="sizes, total, prev, pager, next, jumper"
+        :page-sizes="pageSizes"
+        :total="optionObj.total"
+        @size-change="handleSizeChange"
+        @current-change="pageChange"
+      />
     </div>
-    <el-pagination
-      v-if="isPage"
-      style="float: right; padding-top: 16px;"
-      :current-page.sync="currentPage"
-      :page-size="optionObj.form.size"
-      layout="sizes, total, prev, pager, next, jumper"
-      :page-sizes="pageSizes"
-      :total="optionObj.total"
-      @size-change="handleSizeChange"
-      @current-change="pageChange"
-    />
     <option-modal
       :visible="optionDialogVisible"
       :config="config"
@@ -342,7 +351,7 @@ export default {
           }
         })
 
-        if (!this.isFirstMixConfig && this.optionObj.dataList?.length !== 0) {
+        if (!this.isFirstMixConfig /* && this.optionObj.dataList?.length !== 0 */) {
           this.mixConfig(this.optionObj.dataList)
         }
 
@@ -495,7 +504,10 @@ export default {
 <style lang="scss">
 .m-vxe-table {
   position: relative;
-
+  &-empty {
+    padding: 20px 0;
+    color: #9D9F9D;
+  }
   .u-mask-icon {
     vertical-align: text-top;
     font-size: 20px;
@@ -517,34 +529,42 @@ export default {
     }
 
     &.z-primary {
-      color: #07b56a;
+      color: #009100;
 
       &:hover {
-        color: #08c975;
+        color: rgba($color: #009100, $alpha: 0.8);
       }
     }
 
     &.z-success {
-      color: #67c23a;
+      color: #009100;
 
       &:hover {
-        color: #85ce61;
+        color: rgba($color: #009100, $alpha: 0.8);
       }
     }
 
     &.z-warning {
-      color: #e6a23c;
+      color: #C8A12B;
 
       &:hover {
-        color: #ebb563;
+        color: rgba($color: #C8A12B, $alpha: 0.8);
       }
     }
 
     &.z-danger {
-      color: #f56c6c;
+      color: #B91919;
 
       &:hover {
-        color: #f78989;
+        color: rgba($color: #B91919, $alpha: 0.8);
+      }
+    }
+
+    &.z-info {
+      color: #4C4CD6;
+
+      &:hover {
+        color: rgba($color: #4C4CD6, $alpha: 0.8);
       }
     }
 
@@ -597,34 +617,42 @@ export default {
   }
 
   &.z-primary {
-    color: #07b56a;
+    color: #009100;
 
     &:hover {
-      color: #08c975;
+      color: rgba($color: #009100, $alpha: 0.8);
     }
   }
 
   &.z-success {
-    color: #67c23a;
+    color: #009100;
 
     &:hover {
-      color: #85ce61;
+      color: rgba($color: #009100, $alpha: 0.8);
     }
   }
 
   &.z-warning {
-    color: #e6a23c;
+    color: #C8A12B;
 
     &:hover {
-      color: #ebb563;
+      color: rgba($color: #C8A12B, $alpha: 0.8);
     }
   }
 
   &.z-danger {
-    color: #f56c6c;
+    color: #B91919;
 
     &:hover {
-      color: #f78989;
+      color: rgba($color: #B91919, $alpha: 0.8);
+    }
+  }
+
+  &.z-info {
+    color: #4C4CD6;
+
+    &:hover {
+      color: rgba($color: #4C4CD6, $alpha: 0.8);
     }
   }
 
