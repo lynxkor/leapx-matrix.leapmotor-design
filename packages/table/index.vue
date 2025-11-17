@@ -317,11 +317,15 @@ export default {
         Object.assign(this.config, data.config)
         Object.assign(this.resizableData, data.resizableData)
 
-        if (this.optionObj.dataProp.length !== this.config.columnConfig.length) {
-          // 如果表格字段更新过，需要更新最新的代码配置，清空老的内容
-          this.config.columnConfig = this.optionObj.dataProp.map(item => {
-            item = { visible: true, ...item }
+        // 清除远端中存在但被前端代码已经删除掉的key
+        this.config.columnConfig = this.config.columnConfig.filter(column => this.optionObj.dataProp.findIndex(data => data.props === column.props) !== -1)
 
+        if (this.optionObj.dataProp.length !== this.config.columnConfig.length) {
+          // 如果表格字段更新过，需要更新最新的代码配置
+          // 筛选出远程中不存在的字段
+          const dataProp = this.optionObj.dataProp.filter(data => this.config.columnConfig.findIndex(column => data.props === column.props) === -1)
+
+          this.config.columnConfig = [...this.config.columnConfig, ...dataProp.map(item => {
             const configItem = this.config.columnConfig.find(el => el.props === item.props)
             if (configItem) {
               if (item.disabled) {
@@ -332,18 +336,20 @@ export default {
             } else {
               return item
             }
-          })
-        } else {
-          this.sortArray(this.optionObj.dataProp, this.config.columnConfig)
-          // 排序完之后，还要更新配置项
-          this.config.columnConfig.forEach((configItem, index) => {
-            const item = { visible: true, ...this.optionObj.dataProp[index] }
-            if (item.disabled) {
-              configItem.visible = item.visible === undefined ? true : item.visible
-              configItem.disabled = item.disabled
-            }
-          })
+          })]
+
+          console.log(this.config.columnConfig)
         }
+
+        this.sortArray(this.optionObj.dataProp, this.config.columnConfig)
+        // 排序完之后，还要更新配置项
+        this.config.columnConfig.forEach((configItem, index) => {
+          const item = this.optionObj.dataProp[index]
+          if (item.disabled) {
+            configItem.visible = item.visible
+            configItem.disabled = item.disabled
+          }
+        })
 
         if (!this.isFirstMixConfig /* && this.optionObj.dataList?.length !== 0 */) {
           this.mixConfig(this.optionObj.dataList)
