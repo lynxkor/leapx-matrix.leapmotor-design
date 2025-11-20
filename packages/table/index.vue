@@ -1,9 +1,8 @@
 <template>
   <div class="m-vxe-table" style="min-height: 100px; height: 100%;">
-    <div class="m-vxe-table-options">
-      <el-button type="text" size="mini" @click="optionDialogVisible = true">
+    <div class="m-vxe-table-options" v-if="showTableSetting">
+      <el-button class="m-vxe-table-options-btn" size="small" @click="optionDialogVisible = true">
         <i class="el-icon-setting" />
-        <span>表格设置</span>
       </el-button>
     </div>
     <div
@@ -33,6 +32,7 @@
         @checkbox-all="selectChangeEvent"
         @radio-change="radioChangeEvent"
         @sort-change="sortChangeEvent"
+        @resizable-change="onColumnResize"
       >
         <vxe-column v-if="isCheckbox" :resizable="false" :fixed="checkboxFixed ? 'left' : ''" type="checkbox" width="40" />
         <vxe-column v-else-if="isRadio" :resizable="false" :fixed="checkboxFixed ? 'left' : ''" type="radio" width="40" />
@@ -47,6 +47,7 @@
           :align="item.align || 'center'"
           :show-overflow="item.type !== COL_TYPE_OPERATE && !config.autoWrap"
           :sortable="item.sortable"
+          :resizable="item.type !== COL_TYPE_OPERATE"
         >
           <template #default="{ row, rowIndex }">
             <template v-if="item.buttons">
@@ -57,8 +58,24 @@
                 }"
               >
                 <template v-for="(button, buttonIndex) in item.buttons">
+                  <el-popconfirm
+                    :key="button.name"
+                    v-if="button.popconfirmTitle"
+                    :title="button.popconfirmTitle"
+                    @confirm="() => !(row.cols[item.props].buttons[buttonIndex].disabled) && button.click(rowIndex, row)"
+                  >
+                    <span
+                      slot="reference"
+                      :class="['u-lp-table-button', button.type ? `z-${button.type}`: '', {
+                        'z-ellipsis': item.type !== COL_TYPE_OPERATE,
+                        'z-disabled': row.cols[item.props].buttons[buttonIndex].disabled
+                      }]"
+                    >
+                      删除
+                    </span>
+                  </el-popconfirm>
                   <span
-                    v-if="row.cols[item.props].buttons[buttonIndex].show && (row.cols[item.props].showLength <= maxButtonVisibleLength || row.tempData.visibleButtonLength < (maxButtonVisibleLength - 1))"
+                    v-else-if="row.cols[item.props].buttons[buttonIndex].show && (row.cols[item.props].showLength <= maxButtonVisibleLength || row.tempData.visibleButtonLength < (maxButtonVisibleLength - 1))"
                     type="text"
                     :key="buttonIndex"
                     :set="row.tempData = {
@@ -122,7 +139,8 @@
         style="float: right; padding-top: 16px;"
         :current-page.sync="currentPage"
         :page-size="optionObj.form.size"
-        layout="sizes, total, prev, pager, next, jumper"
+        background
+        layout="total, prev, pager, next, sizes, jumper"
         :page-sizes="pageSizes"
         :total="optionObj.total"
         @size-change="handleSizeChange"
@@ -200,6 +218,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    showTableSetting: { // 是否展示表格设置按钮
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -223,20 +245,27 @@ export default {
       tableCode: this.optionObj.id,
       isConfigReady: false,
       isFirstMixConfig: false,
-      currentPage: this.optionObj?.form?.page || 1
+      currentPage: this.optionObj?.form?.page || 1,
+      lastColumnWidth: 'auto' // 最后一列动态宽度
     }
   },
   computed: {
     tableContainerStyle () {
       return {
-        height: this.isPage ? 'calc(100% - 50px)' : '100%'
+        height: this.isPage ? 'calc(100% - 50px)' : '100%',
       }
     },
     list () {
-      return this.optionObj.dataProp.filter((_, index) => {
+      const visibleColumns = this.optionObj.dataProp.filter((_, index) => {
         const col = this.config.columnConfig[index]
         return col.type === COL_TYPE_OPERATE || col.visible
-      }).map(col => {
+      })
+
+      // 找出除操作列外的最后一列
+      const nonOperateColumns = visibleColumns.filter(item => item.type !== COL_TYPE_OPERATE)
+      const lastNonOperateColumn = nonOperateColumns[nonOperateColumns.length - 1]
+
+      return visibleColumns.map(col => {
         if (this.config.layout === LAYOUT_MIN.value) {
           col.layoutWidth = 72
         } else if (this.config.layout === LAYOUT_DEFAULT.value) {
@@ -247,6 +276,12 @@ export default {
           } else {
             col.layoutWidth = col.width || 'auto'
           }
+        }
+
+        // 如果是除操作列外的最后一列，设置为动态宽度
+        if (col === lastNonOperateColumn) {
+          col.layoutWidth = this.lastColumnWidth
+          col.minWidth = 100 // 设置最小宽度保证内容显示
         }
 
         return col
@@ -269,6 +304,12 @@ export default {
   },
   created () {
     this.getStorageData()
+  },
+  mounted () {
+    this.initTableWidthCalculation()
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.calculateLastColumnWidth)
   },
   methods: {
     handleSizeChange (e) {
@@ -337,8 +378,6 @@ export default {
               return item
             }
           })]
-
-          console.log(this.config.columnConfig)
         }
 
         this.sortArray(this.optionObj.dataProp, this.config.columnConfig)
@@ -496,6 +535,70 @@ export default {
       cloneRow[colKey] = row[colKey].value
       row[colKey].fullValue = this.optionObj.dataProp.find(item => item.props === colKey).getValue(cloneRow)
       row[colKey].masked = false
+    },
+    // 初始化表格宽度计算
+    initTableWidthCalculation () {
+      this.$nextTick(() => {
+        this.calculateLastColumnWidth()
+
+        // 监听窗口大小变化
+        window.addEventListener('resize', this.calculateLastColumnWidth)
+
+        // 监听表格数据变化
+        this.$watch('optionObj.dataList', this.calculateLastColumnWidth, { deep: true })
+
+        // 监听配置变化
+        this.$watch('config', this.calculateLastColumnWidth, { deep: true })
+      })
+    },
+    // 计算最后一列宽度
+    calculateLastColumnWidth () {
+      if (!this.$refs.tableRef || !this.isFirstMixConfig) return
+
+      this.$nextTick(() => {
+        const tableEl = this.$refs.tableRef.$el
+        if (!tableEl) return
+
+        const tableWidth = tableEl.offsetWidth
+        if (!tableWidth) return
+
+        // 计算除最后一列外的所有非操作列的总宽度
+        const visibleColumns = this.list.filter(item => item.type !== COL_TYPE_OPERATE)
+        if (visibleColumns.length <= 1) {
+          this.lastColumnWidth = 'auto'
+          return
+        }
+
+        const otherColumns = visibleColumns.slice(0, -1)
+
+        let totalWidth = 0
+        otherColumns.forEach(col => {
+          if (col.layoutWidth && col.layoutWidth !== 'auto') {
+            const width = parseInt(col.layoutWidth) || 100
+            totalWidth += width
+          } else {
+            totalWidth += 100 // 默认宽度
+          }
+        })
+
+        // 计算操作列宽度（如果有）
+        const operateColumn = this.list.find(item => item.type === COL_TYPE_OPERATE)
+        if (operateColumn) {
+          totalWidth += 120 // 操作列默认宽度
+        }
+
+        // 计算剩余宽度，确保不小于最小宽度
+        const remainingWidth = Math.max(tableWidth - totalWidth - 8, 200) // 减去边框等间距
+        this.lastColumnWidth = `${remainingWidth}`
+      })
+    },
+    // 列宽调整事件
+    onColumnResize () {
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.calculateLastColumnWidth()
+        }, 100)
+      })
     }
   }
 }
@@ -522,6 +625,9 @@ export default {
 
     &.z-ellipsis {
       display: inline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     &:last-child {
@@ -577,7 +683,11 @@ export default {
   .m-vxe-table-options {
     position: absolute;
     right: 0;
-    top: -36px;
+    top: -45px;
+    &-btn {
+      padding: 6px 8px;
+      font-size: 16px;
+    }
   }
 
   .u-button-more {

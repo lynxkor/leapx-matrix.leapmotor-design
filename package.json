@@ -1,11 +1,15 @@
 {
   "name": "@leapmotor/design",
-  "version": "0.1.7-alpha.13",
+  "version": "0.1.7-alpha.17",
   "description": "A rich interaction, lightweight, high performance frontend library based on Vue.",
   "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://git-external.leapmotor.com/business-front/webx/leapmotor-design"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://10.192.1.190:8081/repository/npm_it"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
