@@ -41,13 +41,6 @@ export default {
         dataProp: [
           { props: 'id', label: 'ID', width: 300, visible: true },
           { props: 'name', label: 'Name', visible: true, mask: true, getValue: row => row.fullName, sortable: true },
-          ...Array.from(Array(40), (_, i) => {
-            return {
-              props: `test${i}`,
-              label: `test${i}`,
-              visible: true
-            }
-          }),
           {
             props: 'operate',
             label: 'Operate',
@@ -108,7 +101,14 @@ export default {
                 return row.id < 400
               }
             }]
-          }
+          },
+          ...Array.from(Array(40), (_, i) => {
+            return {
+              props: `test${i}`,
+              label: `test${i}`,
+              visible: true
+            }
+          })
         ],
         total: 0
       },

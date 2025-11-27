@@ -153,12 +153,32 @@ export default {
         animation: 150,
         ghostClass: 'sortable-ghost',
         onEnd: (evt) => {
-          // 获取拖拽后的新索引
-          const newIndex = evt.newIndex
-          const oldIndex = evt.oldIndex
-          // 更新数组顺序（Vue 数据同步）
-          const movedItem = this.form.columnConfig.splice(oldIndex, 1)[0]
-          this.form.columnConfig.splice(newIndex, 0, movedItem)
+          const { oldIndex, newIndex } = evt
+
+          // 1. 获取当前可见列（参与排序的列）
+          const visibleCols = [...this.filteredCols] // 复制避免响应式干扰
+
+          // 2. 在可见列子集中调整顺序（关键修正）
+          const movedItem = visibleCols.splice(oldIndex, 1)[0]
+          visibleCols.splice(newIndex, 0, movedItem)
+
+          // 3. 重建完整数组（核心修正）
+          const newColumnConfig = []
+          let visibleIndex = 0
+
+          this.form.columnConfig.forEach(col => {
+            // 参与排序的列：用排序后的可见列替换
+            if (visibleCols.some(c => c.props === col.props)) {
+              newColumnConfig.push(visibleCols[visibleIndex++])
+            } else {
+              // 隐藏列：保持原位置
+              newColumnConfig.push(col)
+            }
+          })
+
+          // 4. 更新数据
+          this.form.columnConfig = newColumnConfig
+          console.log('newColumnConfig', newColumnConfig)
         }
       })
     },
