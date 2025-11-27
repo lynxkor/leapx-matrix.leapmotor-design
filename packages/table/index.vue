@@ -163,7 +163,7 @@
 <script>
 import OptionModal from './optionModal'
 import { LAYOUT_MIN, LAYOUT_DEFAULT, LAYOUT_CUSTOM, DEFAULT_CONFIG, COL_TYPE_OPERATE, COL_PARAMS_MASK } from './constants'
-import { deepClone } from '../utils/index'
+import { deepClone, debounce } from '../utils/index'
 
 export default {
   components: {
@@ -312,7 +312,7 @@ export default {
     this.initTableWidthCalculation()
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.calculateLastColumnWidth)
+    window.removeEventListener('resize', this.debouncedCalculateLastColumnWidth)
   },
   methods: {
     handleSizeChange (e) {
@@ -545,13 +545,13 @@ export default {
         this.calculateLastColumnWidth()
 
         // 监听窗口大小变化
-        window.addEventListener('resize', this.calculateLastColumnWidth)
+        window.addEventListener('resize', this.debouncedCalculateLastColumnWidth)
 
         // 监听表格数据变化
-        this.$watch('optionObj.dataList', this.calculateLastColumnWidth, { deep: true })
+        this.$watch('optionObj.dataList', this.debouncedCalculateLastColumnWidth, { deep: true })
 
         // 监听配置变化
-        this.$watch('config', this.calculateLastColumnWidth, { deep: true })
+        this.$watch('config', this.debouncedCalculateLastColumnWidth, { deep: true })
       })
     },
     // 计算最后一列宽度
@@ -602,7 +602,10 @@ export default {
           this.calculateLastColumnWidth()
         }, 100)
       })
-    }
+    },
+    debouncedCalculateLastColumnWidth: debounce(function () {
+      this.calculateLastColumnWidth()
+    }, 300)
   }
 }
 </script>
