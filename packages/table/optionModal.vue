@@ -70,8 +70,8 @@
       </el-checkbox-group>
     </div>
     <div slot="footer" class="dialog-footer">
-      <el-button :loading="loading" type="primary" @click="submit">保存</el-button>
-      <el-button @click="cancel">取消</el-button>
+      <el-button :loading="loading" type="primary" @click="submit" size="small">保存</el-button>
+      <el-button @click="cancel" size="small">取消</el-button>
     </div>
   </el-dialog>
 </template>

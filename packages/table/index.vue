@@ -548,10 +548,10 @@ export default {
         window.addEventListener('resize', this.debouncedCalculateLastColumnWidth)
 
         // 监听表格数据变化
-        this.$watch('optionObj.dataList', this.debouncedCalculateLastColumnWidth, { deep: true })
+        this.$watch('optionObj.dataList', this.calculateLastColumnWidth, { deep: true })
 
         // 监听配置变化
-        this.$watch('config', this.debouncedCalculateLastColumnWidth, { deep: true })
+        this.$watch('config', this.calculateLastColumnWidth, { deep: true })
       })
     },
     // 计算最后一列宽度
@@ -591,7 +591,7 @@ export default {
         }
 
         // 计算剩余宽度，确保不小于最小宽度
-        const remainingWidth = Math.max(tableWidth - totalWidth - 8, 200) // 减去边框等间距
+        const remainingWidth = Math.max(tableWidth - totalWidth - 24, 200) // 减去边框等间距
         this.lastColumnWidth = `${remainingWidth}`
       })
     },
