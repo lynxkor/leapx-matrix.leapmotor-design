@@ -10,7 +10,7 @@
       :style="tableContainerStyle"
     >
       <vxe-table
-        v-if="isFirstMixConfig"
+        v-if="isFirstMixConfig && !optionLoading"
         v-loading="loading"
         :id="tableCode"
         ref="tableRef"
