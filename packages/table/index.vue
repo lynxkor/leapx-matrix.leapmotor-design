@@ -2,7 +2,7 @@
   <div class="m-vxe-table" style="min-height: 100px; height: 100%;">
     <div class="m-vxe-table-options" v-if="showTableSetting">
       <el-button class="m-vxe-table-options-btn" size="small" @click="optionDialogVisible = true">
-        <i class="el-icon-setting" />
+        <i class="iconfont icon-lxppc-settings" />
       </el-button>
     </div>
     <div
@@ -44,7 +44,8 @@
           :title="item.label"
           :width="item.type === COL_TYPE_OPERATE ? 'auto' : item.layoutWidth"
           :fixed="item.type === COL_TYPE_OPERATE ? (config.isOperateFixed ? 'right' : '') : item.fixed"
-          :align="item.align || 'center'"
+          :align="item.align || 'left'"
+          :header-align="item.headerAlign || 'left'"
           :show-overflow="item.type !== COL_TYPE_OPERATE && !config.autoWrap"
           :sortable="item.sortable"
           :resizable="item.type !== COL_TYPE_OPERATE"
@@ -56,6 +57,7 @@
                   visibleButtonLength: 0,
                   loopButtonIndex: 0
                 }"
+                :class="{'u-lp-table-operation': item.type === COL_TYPE_OPERATE}"
               >
                 <template v-for="(button, buttonIndex) in item.buttons">
                   <el-popconfirm
@@ -68,6 +70,7 @@
                       slot="reference"
                       :class="['u-lp-table-button', button.type ? `z-${button.type}`: '', {
                         'z-ellipsis': item.type !== COL_TYPE_OPERATE,
+                        'button-operation': item.type !== COL_TYPE_OPERATE,
                         'z-disabled': row.cols[item.props].buttons[buttonIndex].disabled
                       }]"
                     >
@@ -257,7 +260,7 @@ export default {
     },
     list () {
       const visibleColumns = this.optionObj.dataProp.filter((_, index) => {
-        const col = this.config.columnConfig[index]
+        const col = this.config.columnConfig[index] || {}
         return col.type === COL_TYPE_OPERATE || col.visible
       })
 
@@ -617,7 +620,9 @@ export default {
     margin-left: 10px;
     cursor: pointer;
   }
-
+  .u-lp-table-operation {
+    padding: 0px 8px;
+  }
   .u-lp-table-button {
     margin-right: 8px;
     cursor: pointer;
@@ -638,7 +643,8 @@ export default {
       color: #009100;
 
       &:hover {
-        color: rgba($color: #009100, $alpha: 0.8);
+        color: #008200;
+        text-decoration: underline;
       }
     }
 
@@ -646,7 +652,8 @@ export default {
       color: #009100;
 
       &:hover {
-        color: rgba($color: #009100, $alpha: 0.8);
+        color: #008200;
+        text-decoration: underline;
       }
     }
 
@@ -654,7 +661,8 @@ export default {
       color: #C8A12B;
 
       &:hover {
-        color: rgba($color: #C8A12B, $alpha: 0.8);
+        color: #B49127;
+        text-decoration: underline;
       }
     }
 
@@ -662,7 +670,8 @@ export default {
       color: #B91919;
 
       &:hover {
-        color: rgba($color: #B91919, $alpha: 0.8);
+        color: #A61616;
+        text-decoration: underline;
       }
     }
 
@@ -670,7 +679,8 @@ export default {
       color: #4C4CD6;
 
       &:hover {
-        color: rgba($color: #4C4CD6, $alpha: 0.8);
+        color: #4444C0;
+        text-decoration: underline;
       }
     }
 
@@ -730,7 +740,8 @@ export default {
     color: #009100;
 
     &:hover {
-      color: rgba($color: #009100, $alpha: 0.8);
+      color: #008200;
+      text-decoration: underline;
     }
   }
 
@@ -738,7 +749,8 @@ export default {
     color: #009100;
 
     &:hover {
-      color: rgba($color: #009100, $alpha: 0.8);
+      color: #008200;
+      text-decoration: underline;
     }
   }
 
@@ -746,7 +758,8 @@ export default {
     color: #C8A12B;
 
     &:hover {
-      color: rgba($color: #C8A12B, $alpha: 0.8);
+      color: #B49127;
+      text-decoration: underline;
     }
   }
 
@@ -754,7 +767,8 @@ export default {
     color: #B91919;
 
     &:hover {
-      color: rgba($color: #B91919, $alpha: 0.8);
+      color: #A61616;
+      text-decoration: underline;
     }
   }
 
@@ -762,7 +776,8 @@ export default {
     color: #4C4CD6;
 
     &:hover {
-      color: rgba($color: #4C4CD6, $alpha: 0.8);
+      color: #4444C0;
+      text-decoration: underline;
     }
   }
 
