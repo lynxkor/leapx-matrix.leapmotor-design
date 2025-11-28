@@ -623,9 +623,9 @@ export default {
     margin-left: 10px;
     cursor: pointer;
   }
-  .u-lp-table-operation {
-    padding: 0px 8px;
-  }
+  // .u-lp-table-operation {
+  //   padding: 0px 8px;
+  // }
   .u-lp-table-button {
     margin-right: 8px;
     cursor: pointer;
