@@ -25,6 +25,7 @@
         :row-class-name="rowClassName"
         :sort-config="{ remote: true, multiple: true }"
         max-height="100%"
+        min-height="0"
         border="inner"
         stripe
         :row-config="{isHover: true}"
@@ -523,8 +524,10 @@ export default {
       // console.log(list)
     },
     getVisibleCols () {
-      return this.config.columnConfig.filter(item => item.visible).reduce((acc, item) => {
-        acc.set(item.props, item.label)
+      return this.config.columnConfig.reduce((acc, item) => {
+        if (item.visible && item.type !== COL_TYPE_OPERATE) {
+          acc.set(item.props, item.label)
+        }
         return acc
       }, new Map())
     },
@@ -591,7 +594,7 @@ export default {
         }
 
         // 计算剩余宽度，确保不小于最小宽度
-        const remainingWidth = Math.max(tableWidth - totalWidth - 24, 200) // 减去边框等间距
+        const remainingWidth = Math.max(tableWidth - totalWidth - 36, 200) // 减去边框等间距
         this.lastColumnWidth = `${remainingWidth}`
       })
     },
