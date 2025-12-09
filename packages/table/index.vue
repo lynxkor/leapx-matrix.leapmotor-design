@@ -6,7 +6,6 @@
       </el-button>
     </div>
     <div
-      v-loading="optionLoading"
       :style="tableContainerStyle"
     >
       <vxe-table
@@ -22,6 +21,7 @@
         :virtual-y-config="{enabled: true, gt: 99, mode: 'wheel', oSize: 3}"
         :virtual-x-config="{enabled: !config.autoWrap, gt: 10}"
         :radio-config="{strict: false}"
+        :cell-config="{height: 44}"
         :row-class-name="rowClassName"
         :sort-config="{ remote: true, multiple: true }"
         max-height="100%"
