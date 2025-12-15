@@ -53,7 +53,7 @@
         >
           <template #default="{ row, rowIndex }">
             <template v-if="item.buttons">
-              <div
+              <span
                 :set="row.tempData = {
                   visibleButtonLength: 0,
                   loopButtonIndex: 0
@@ -117,7 +117,7 @@
                     </template>
                   </template>
                 </vxe-button>
-              </div>
+              </span>
             </template>
             <template v-else-if="item[COL_PARAMS_MASK]">
               <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span>
