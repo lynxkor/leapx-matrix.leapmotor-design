@@ -539,7 +539,9 @@ export default {
 
       const cloneRow = deepClone(row)
       cloneRow[colKey] = row[colKey].value
-      row[colKey].fullValue = this.optionObj.dataProp.find(item => item.props === colKey).getValue(cloneRow)
+      this.optionObj.dataProp.find(item => item.props === colKey).getValue(cloneRow).then(val => {
+        row[colKey].fullValue = val
+      })
       row[colKey].masked = false
     },
     // 初始化表格宽度计算
