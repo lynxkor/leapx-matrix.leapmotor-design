@@ -40,7 +40,16 @@ export default {
         },
         dataProp: [
           { props: 'id', label: 'ID', width: 300, visible: true },
-          { props: 'name', label: 'Name', visible: true, mask: true, getValue: row => row.fullName, sortable: true },
+          {
+            props: 'name',
+            label: 'Name',
+            visible: true,
+            mask: true,
+            getValue: row => new Promise((resolve) => {
+              resolve(row.fullName)
+            }),
+            sortable: true
+          },
           {
             props: 'operate',
             label: 'Operate',
