@@ -65,6 +65,7 @@
                     :key="button.name"
                     v-if="button.popconfirmTitle"
                     :title="button.popconfirmTitle"
+                    :disabled="row.cols[item.props].buttons[buttonIndex].disabled"
                     @confirm="() => !(row.cols[item.props].buttons[buttonIndex].disabled) && button.click(rowIndex, row)"
                   >
                     <span
@@ -541,8 +542,8 @@ export default {
       cloneRow[colKey] = row[colKey].value
       this.optionObj.dataProp.find(item => item.props === colKey).getValue(cloneRow).then(val => {
         row[colKey].fullValue = val
+        row[colKey].masked = false
       })
-      row[colKey].masked = false
     },
     // 初始化表格宽度计算
     initTableWidthCalculation () {
