@@ -1,12 +1,16 @@
 <template>
   <div class="m-vxe-table" style="min-height: 100px; height: 100%;">
-    <div class="m-vxe-table-options" v-if="showTableSetting">
-      <el-button class="m-vxe-table-options-btn" size="small" @click="optionDialogVisible = true">
+    <div class="m-vxe-table-options">
+      <el-button class="m-vxe-table-options-btn" size="small" @click="handleCentralizedClick" v-if="centralized">
+        <i class="iconfont" :class="{'icon-lxppc-tablelayout': !isCentralizedView, 'icon-lxppc-centerlayout': isCentralizedView}"/>
+      </el-button>
+      <el-button class="m-vxe-table-options-btn" size="small" @click="optionDialogVisible = true" v-if="showTableSetting">
         <i class="iconfont icon-lxppc-settings" />
       </el-button>
     </div>
     <div
       :style="tableContainerStyle"
+      v-if="!isCentralizedView"
     >
       <vxe-table
         v-if="isFirstMixConfig && !optionLoading"
@@ -152,6 +156,38 @@
         @current-change="pageChange"
       />
     </div>
+    <div class="m-centralized-view" v-else>
+      <div class="m-centralized-view-left">
+        <template v-if="optionObj.dataList.length">
+          <ul class="centralized-view-list">
+            <li v-for="(item, index) in optionObj.dataList" :key="index" :class="centralizedSel.id === item.id ? 'active': ''" @click="centralizedListSelect(item)">
+              <div class="list-title" :title="item[centralizedList[0].props]" v-if="centralizedList[0]">{{ item[centralizedList[0].props] }}</div>
+              <div class="list-sub" :title="item[centralizedList[1].props]" v-if="centralizedList[1]">{{ item[centralizedList[1].props] }}</div>
+              <div class="list-tip" :title="item[centralizedList[2].props]" v-if="centralizedList[2]">{{ item[centralizedList[2].props] }}</div>
+            </li>
+          </ul>
+          <div class="centralized-view-paging">
+            <i class="icon-lxppc-left iconfont" :class="{disabled: currentPage <= 1}" @click="pageChange(+currentPage - 1)"></i>
+            <span>
+              <input min="1" :max="totalPage" type="number" v-model="currentPage" @change="handleCustomPageChange" />
+              <i class="paging-split">/</i>
+              {{ totalPage }}
+            </span>
+            <i class="icon-lxppc-right iconfont" :class="{disabled: currentPage >= totalPage}" @click="pageChange(+currentPage + 1)"></i>
+          </div>
+        </template>
+        <div class="centralized-view-empty" v-else>
+          暂无数据
+        </div>
+      </div>
+      <div class="m-centralized-view-right">
+        <slot name="centralizedViewSlot" v-if="optionObj.dataList.length"></slot>
+        <div class="centralized-view-empty" v-else>
+          <img :src="require('./empty.png')" />
+          <p>暂无数据</p>
+        </div>
+      </div>
+    </div>
     <option-modal
       :visible="optionDialogVisible"
       :config="config"
@@ -227,10 +263,16 @@ export default {
     showTableSetting: { // 是否展示表格设置按钮
       type: Boolean,
       default: true
+    },
+    centralized: { // 是否展示集中视图功能
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
+      isCentralizedView: false, // 是否是集中视图
+      centralizedSel: {},
       optionDialogVisible: false,
       config: deepClone(DEFAULT_CONFIG),
       resizableData: {},
@@ -291,6 +333,13 @@ export default {
 
         return col
       })
+    },
+    centralizedList () {
+      const res = this.list.filter(item => item.centralized)
+      return res.length > 0 ? res.slice(0, 3) : this.list.slice(0, 3)
+    },
+    totalPage () {
+      return Math.ceil(this.optionObj.total / this.optionObj.form.size)
     }
   },
   watch: {
@@ -298,6 +347,8 @@ export default {
       handler (val) {
         if (this.isConfigReady && val.length !== 0) {
           this.mixConfig(val)
+          this.centralizedSel = val[0]
+          this.$emit('listSelect', val[0])
         }
       }
     },
@@ -332,6 +383,22 @@ export default {
     sortChangeEvent ({ sortList }) {
       // console.log('sortList', sortList)
       this.$emit('sortChange', sortList)
+    },
+    centralizedListSelect (row) {
+      // console.log('sortList', sortList)
+      this.centralizedSel = row
+      this.$emit('listSelect', row)
+    },
+    handleCustomPageChange (e) {
+      let v = e.target.value
+      if (v > this.totalPage) {
+        v = this.totalPage
+      }
+      if (v < 1) {
+        v = 1
+      }
+      this.currentPage = v
+      this.pageChange(v)
     },
     handleOptionSubmit (config) {
       this.optionLoading = true
@@ -611,7 +678,14 @@ export default {
     },
     debouncedCalculateLastColumnWidth: debounce(function () {
       this.calculateLastColumnWidth()
-    }, 300)
+    }, 300),
+    handleCentralizedClick () {
+      const nextValue = !this.isCentralizedView
+      this.$emit('centralizedClick', nextValue)
+      this.$emit('paginationChange', 'size', 20)
+      this.$emit('paginationChange', 'page', 1)
+      this.isCentralizedView = nextValue
+    }
   }
 }
 </script>
@@ -817,6 +891,129 @@ export default {
 
 .vxe-table--body-wrapper {
   transform: translateZ(0);
+}
+
+// 集中视图样式
+.m-centralized-view {
+  height: 100%;
+  border-top: 1px solid #E6E6E5;
+  display: flex;
+  &-left {
+    width: 220px;
+    border-right: 1px solid #E6E6E5;
+    padding: 12px 0px 12px 0;
+    padding-bottom: 50px;
+    position: relative;
+    .centralized-view-paging{
+      height: 48px;
+      padding-right: 12px;
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #3B3E3B;
+      input {
+        width: 56px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #E6E6E5;
+        text-align: center;
+      }
+      .iconfont {
+        font-size: 16px;
+        cursor: pointer;
+        &.disabled{
+          color: #CECFCE;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+      }
+      .paging-split{
+        margin: 0 8px;
+      }
+    }
+    .centralized-view-empty {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #9D9F9D;
+    }
+    .centralized-view-list {
+      overflow-y: auto;
+      height: 100%;
+      padding-right: 12px;
+      &::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: #fff;
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #E6E6E5;
+        border-radius: 10px;
+        border: 2px solid #fff;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #CECFCE;
+      }
+      li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        &.active {
+          background: #E6F4E6;
+          .list-title,.list-sub,.list-tip {
+            color: #009100;
+          }
+        }
+        &>div{
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+      .list-title {
+        font-size: 14px;
+        color: #3B3E3B;
+        line-height: 22px;
+      }
+      .list-sub{
+        font-size: 12px;
+        color: #3B3E3B;
+        line-height: 20px;
+      }
+      .list-tip {
+        font-size: 12px;
+        line-height: 20px;
+        color: #9D9F9D;
+      }
+    }
+  }
+  &-right {
+    flex: 1;
+    position: relative;
+    overflow-y: auto;
+    .centralized-view-empty{
+      position: absolute;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 14px;
+      color: #9D9F9D;
+    }
+  }
 }
 </style>
 
