@@ -166,7 +166,7 @@ export default {
           },
           {
             id: 3,
-            name: '王五',
+            name: '',
             ...Array.from(Array(40), (_, i) => i)
               .reduce((acc, num) => {
                 acc[`test${num}`] = `测试${num}`
