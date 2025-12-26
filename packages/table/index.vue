@@ -126,7 +126,7 @@
             </template>
             <template v-else-if="item[COL_PARAMS_MASK]">
               <span>{{ row[item.props].masked ? row[item.props].value : row[item.props].fullValue }}</span>
-              <svg class="icon u-mask-icon" aria-hidden="true" @click="doMaskCol(row, item.props)">
+              <svg v-if="row[item.props].value" class="icon u-mask-icon" aria-hidden="true" @click="doMaskCol(row, item.props)">
                 <use v-if="row[item.props].masked" xlink:href="#icon-leapmotor-design-eye-open"></use>
                 <use v-else xlink:href="#icon-leapmotor-design-eye-close"></use>
               </svg>
