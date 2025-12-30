@@ -41,3 +41,10 @@
 | click | 按钮点击事件 | function | - | 是 | - |
 | type | 按钮类型 | string | - | 否 | 参考el-button |
 | show | 是否显示 | function | true | 否 | - |
+
+#### table event
+| 事件名 | 说明 | 参数 |
+| -------- | -------- | -------- |
+| paginationChange | 分页改变 | page, pageSize |
+| handleSelect | 选中行 | row |
+| sortChange | 排序改变 | sortList<{field, order}> |
