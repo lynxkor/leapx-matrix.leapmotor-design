@@ -67,7 +67,7 @@
                 <template v-for="(button, buttonIndex) in item.buttons">
                   <el-popconfirm
                     :key="button.name"
-                    v-if="button.popconfirmTitle"
+                    v-if="button.popconfirmTitle && row.cols[item.props].buttons[buttonIndex].show && (row.cols[item.props].showLength <= maxButtonVisibleLength || row.tempData.visibleButtonLength < (maxButtonVisibleLength - 1))"
                     :title="button.popconfirmTitle"
                     :disabled="row.cols[item.props].buttons[buttonIndex].disabled"
                     @confirm="() => !(row.cols[item.props].buttons[buttonIndex].disabled) && button.click(rowIndex, row)"
