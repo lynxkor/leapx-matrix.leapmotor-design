@@ -80,7 +80,7 @@
                         'z-disabled': row.cols[item.props].buttons[buttonIndex].disabled
                       }]"
                     >
-                      删除
+                      {{ button.name || row[item.props] }}
                     </span>
                   </el-popconfirm>
                   <span
