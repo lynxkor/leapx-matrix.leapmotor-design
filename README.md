@@ -8,7 +8,7 @@
 # .npmrc 文件内容
 
 # 设置私有仓库的别名
-@leapmotor:registry=http://10.192.1.190:8081/repository/group_npm
+@leapmotor:registry=https://lprepo.leapmotor.com/npm/ps/npm/
 
 # 设置默认的npm registry（可选，如果你希望公共包从官方源下载）
 registry=https://registry.npmmirror.com/
@@ -31,7 +31,33 @@ npm i -D @leapmotor/design
 <!-- module list -->
 Issue 反馈： [点此](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues)
 
+## 开发
+
+```bash
+# 配置项目
+npx yalc publish
+
+# 进入项目目录
+cd xxxx
+
+# 引用项目
+## 首次需安装
+npm i -D yalc
+
+## 配置引用关系，项目中需要配置.yalc为gitignore
+npx yalc add @leapmotor/design
+
+## 安装依赖
+npm i
+
+## 取消引用关系
+npx yalc remove @leapmotor/design
+
+## 更新代码，需要在本项目中执行
+npx yalc push
+```
+
 ## 发布命令
 ```sh
-npm publish --registry=http://10.192.1.190:8081/repository/npm_it/
+npm publish --registry=https://lprepo.leapmotor.com/npm/ps/npm/
 ```

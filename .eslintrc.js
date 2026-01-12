@@ -1,3 +1,5 @@
+const rules = require('./packages/eslint/v2/index.js')
+
 module.exports = {
   root: true,
   env: {
@@ -15,13 +17,7 @@ module.exports = {
   },
   ignorePatterns: ['public/*', 'dist/*'],
   rules: {
-    'comma-dangle': ['error', {
-      arrays: 'only-multiline',
-      objects: 'only-multiline',
-      imports: 'only-multiline',
-      exports: 'only-multiline'
-    }],
-    'vue/multi-word-component-names': 'off'
+    ...rules
   },
   overrides: [
     {
