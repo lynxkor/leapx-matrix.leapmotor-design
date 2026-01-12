@@ -1,4 +1,8 @@
 # Change Log
+## v0.1.7
+_2025.08.15_
+- `table`新增组件
+
 ## v0.1.6
 _2025.08.04_
 - `ossUploader` STS接口增加自定义app

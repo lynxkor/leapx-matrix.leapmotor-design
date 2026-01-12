@@ -20,6 +20,10 @@ const routes = [{
   path: '/validator',
   name: 'validator',
   component: () => import('../views/Validator.vue')
+}, {
+  path: '/table',
+  name: 'table',
+  component: () => import('../views/Table.vue')
 }]
 
 const router = new VueRouter({
