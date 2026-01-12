@@ -71,6 +71,10 @@ export default {
         {
           name: 'validator',
           path: '/validator'
+        },
+        {
+          name: 'table',
+          path: '/table'
         }
         // route-link end
       ],
@@ -157,7 +161,7 @@ export default {
 }
 </style>
 
-<style lang="less">
+<style lang="scss">
 :root {
   --red: #f10000;
   --warn: #fa0;

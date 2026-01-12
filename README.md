@@ -19,6 +19,21 @@ registry=https://registry.npmmirror.com/
 npm i -D @leapmotor/design
 ```
 
+## 开发
+```bash
+# 配置项目
+npm link
+
+# 进入项目目录
+cd xxxx
+
+# 引用项目设置软链接
+npm link @leapmotor/design
+
+# 取消引用项目软链接
+npm unlink @leapmotor/design
+```
+
 ## 组件列表
 
 | Type     | Name                                                                                                                    | Description          | Author                     |
@@ -27,6 +42,7 @@ npm i -D @leapmotor/design
 | 逻辑模块 | [OssUploader](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/blob/main/doc/OssUploader.md)    |  Oss 上传组件         |  pan_ji2@leapmotor.com     |
 | UI模块   | [Theme](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/blob/main/doc/Theme.md)               |  Theme 主题色         |  pan_ji2@leapmotor.com     |
 | 逻辑模块 | [Validator](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/blob/main/doc/Validator.md)        |  Validator 组件      |  pan_ji2@leapmotor.com     |
+| UI模块   | [Table](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/blob/main/doc/Table.md)                  |  Table 表格          |  pan_ji2@leapmotor.com     |
 
 <!-- module list -->
 Issue 反馈： [点此](https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues)

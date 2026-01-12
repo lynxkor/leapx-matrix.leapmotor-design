@@ -21,7 +21,8 @@ module.exports = {
       imports: 'only-multiline',
       exports: 'only-multiline'
     }],
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'no-new': 'off'
   },
   overrides: [
     {
