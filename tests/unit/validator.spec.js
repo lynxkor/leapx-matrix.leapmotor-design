@@ -1,5 +1,5 @@
 // regex.test.js
-import { REGEX_CN_PHONE } from '../../packages/utils/validator'
+import { REGEX_CN_PHONE } from '@leapmotor/design-base/packages/utils/validator'
 
 describe('REGEX_CN_PHONE', () => {
   test('should match Chinese mobile numbers', () => {

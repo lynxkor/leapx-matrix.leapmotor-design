@@ -1,4 +1,9 @@
 # Change Log
+## v0.1.9
+_2026.01.19_
+- 接入@leapmotor/design-base
+- 接入制品库
+
 ## v0.1.7
 _2025.08.15_
 - `table`新增组件

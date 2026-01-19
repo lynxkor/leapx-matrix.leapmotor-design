@@ -1,9 +1,0 @@
-$--color-primary: #009100;
-$--color-primary-light: #E6F4E6;
-
-// the :export directive is the magic sauce for webpack
-// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
-:export {
-  colorPrimary: $--color-primary;
-  colorPrimaryLight: $--color-primary-light;
-}

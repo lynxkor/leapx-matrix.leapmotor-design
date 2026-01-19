@@ -12,19 +12,19 @@
 </template>
 
 <script>
-import { REGEX_CN_PHONE } from '../../packages/utils/validator'
+import { REGEX_CN_PHONE } from '@leapmotor/design-base/packages/utils/validator'
 
 export default {
-  data () {
+  data() {
     return {
       phone: ''
     }
   },
   computed: {
-    isPhone () {
+    isPhone() {
       return REGEX_CN_PHONE.test(this.phone)
     }
-  },
+  }
 }
 </script>
 

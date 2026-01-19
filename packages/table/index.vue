@@ -201,7 +201,7 @@
 <script>
 import OptionModal from './optionModal'
 import { LAYOUT_MIN, LAYOUT_DEFAULT, LAYOUT_CUSTOM, DEFAULT_CONFIG, COL_TYPE_OPERATE, COL_PARAMS_MASK } from './constants'
-import { deepClone, debounce } from '../utils/index'
+import { deepClone, debounce } from '@leapmotor/design-base/packages/utils/index'
 
 export default {
   components: {
@@ -269,7 +269,7 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       isCentralizedView: false, // 是否是集中视图
       centralizedSel: {},
@@ -297,12 +297,12 @@ export default {
     }
   },
   computed: {
-    tableContainerStyle () {
+    tableContainerStyle() {
       return {
-        height: this.isPage ? 'calc(100% - 50px)' : '100%',
+        height: this.isPage ? 'calc(100% - 50px)' : '100%'
       }
     },
-    list () {
+    list() {
       const visibleColumns = this.optionObj.dataProp.filter((_, index) => {
         const col = this.config.columnConfig[index] || {}
         return col.type === COL_TYPE_OPERATE || col.visible
@@ -334,17 +334,17 @@ export default {
         return col
       })
     },
-    centralizedList () {
+    centralizedList() {
       const res = this.list.filter(item => item.centralized)
       return res.length > 0 ? res.slice(0, 3) : this.list.slice(0, 3)
     },
-    totalPage () {
+    totalPage() {
       return Math.ceil(this.optionObj.total / this.optionObj.form.size)
     }
   },
   watch: {
     'optionObj.dataList': {
-      handler (val) {
+      handler(val) {
         if (this.isConfigReady && val.length !== 0) {
           this.mixConfig(val)
           this.centralizedSel = val[0]
@@ -353,43 +353,43 @@ export default {
       }
     },
     'optionObj.form.page': {
-      handler (val) {
+      handler(val) {
         this.currentPage = val
       }
-    },
+    }
   },
-  created () {
+  created() {
     this.getStorageData()
   },
-  mounted () {
+  mounted() {
     this.initTableWidthCalculation()
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('resize', this.debouncedCalculateLastColumnWidth)
   },
   methods: {
-    handleSizeChange (e) {
+    handleSizeChange(e) {
       this.$emit('paginationChange', 'size', e)
     },
-    pageChange (e) {
+    pageChange(e) {
       this.$emit('paginationChange', 'page', e)
     },
-    selectChangeEvent () {
+    selectChangeEvent() {
       this.$emit('handleSelect', this.$refs.tableRef.getCheckboxRecords())
     },
-    radioChangeEvent () {
+    radioChangeEvent() {
       this.$emit('handleSelect', this.$refs.tableRef.getRadioRecord())
     },
-    sortChangeEvent ({ sortList }) {
+    sortChangeEvent({ sortList }) {
       // console.log('sortList', sortList)
       this.$emit('sortChange', sortList)
     },
-    centralizedListSelect (row) {
+    centralizedListSelect(row) {
       // console.log('sortList', sortList)
       this.centralizedSel = row
       this.$emit('listSelect', row)
     },
-    handleCustomPageChange (e) {
+    handleCustomPageChange(e) {
       let v = e.target.value
       if (v > this.totalPage) {
         v = this.totalPage
@@ -400,7 +400,7 @@ export default {
       this.currentPage = v
       this.pageChange(v)
     },
-    handleOptionSubmit (config) {
+    handleOptionSubmit(config) {
       this.optionLoading = true
       this.saveLoading = true
       Object.assign(this.config, config)
@@ -418,10 +418,10 @@ export default {
           this.saveLoading = false
         })
     },
-    handleOptionCancel () {
+    handleOptionCancel() {
       this.optionDialogVisible = false
     },
-    getStorageData () {
+    getStorageData() {
       this.optionLoading = true
 
       return this.getConfig({ tableCode: this.tableCode }).then(res => {
@@ -506,7 +506,7 @@ export default {
       //   }, 0)
       // })
     },
-    updateStorageData (resizableData, config) {
+    updateStorageData(resizableData, config) {
       Object.assign(this.config, config)
       Object.assign(this.resizableData, resizableData)
 
@@ -520,7 +520,7 @@ export default {
         config: this.config
       })
     },
-    sortArray (a, b) {
+    sortArray(a, b) {
     // 创建一个以 id 为键的对象映射
       const map = new Map()
       b.forEach((item, index) => {
@@ -543,10 +543,10 @@ export default {
         }
       })
     },
-    handleCommand ({ rowIndex, row, button }) {
+    handleCommand({ rowIndex, row, button }) {
       button.click(rowIndex, row)
     },
-    mixConfig (list) {
+    mixConfig(list) {
       this.isFirstMixConfig = true
       // 避免虚拟滚动时重复执行方法带来消耗
       list.forEach(item => {
@@ -591,7 +591,7 @@ export default {
 
       // console.log(list)
     },
-    getVisibleCols () {
+    getVisibleCols() {
       return this.config.columnConfig.reduce((acc, item) => {
         if (item.visible && item.type !== COL_TYPE_OPERATE) {
           acc.set(item.props, item.label)
@@ -599,7 +599,7 @@ export default {
         return acc
       }, new Map())
     },
-    doMaskCol (row, colKey) {
+    doMaskCol(row, colKey) {
       if (!row[colKey].masked) {
         row[colKey].masked = true
         return
@@ -613,7 +613,7 @@ export default {
       })
     },
     // 初始化表格宽度计算
-    initTableWidthCalculation () {
+    initTableWidthCalculation() {
       this.$nextTick(() => {
         this.calculateLastColumnWidth()
 
@@ -628,7 +628,7 @@ export default {
       })
     },
     // 计算最后一列宽度
-    calculateLastColumnWidth () {
+    calculateLastColumnWidth() {
       if (!this.$refs.tableRef || !this.isFirstMixConfig) return
 
       this.$nextTick(() => {
@@ -669,17 +669,17 @@ export default {
       })
     },
     // 列宽调整事件
-    onColumnResize () {
+    onColumnResize() {
       this.$nextTick(() => {
         setTimeout(() => {
           this.calculateLastColumnWidth()
         }, 100)
       })
     },
-    debouncedCalculateLastColumnWidth: debounce(function () {
+    debouncedCalculateLastColumnWidth: debounce(function() {
       this.calculateLastColumnWidth()
     }, 300),
-    handleCentralizedClick () {
+    handleCentralizedClick() {
       const nextValue = !this.isCentralizedView
       this.$emit('centralizedClick', nextValue)
       this.$emit('paginationChange', 'size', 20)

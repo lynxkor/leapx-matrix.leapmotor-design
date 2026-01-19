@@ -6,7 +6,7 @@ import './assets/js/font.js'
 import { version } from '../package.json'
 // import HelloWorld from '../packages/helloWorld/index.js'
 import OssUploader from '../packages/ossUploader/index'
-import Theme from '../packages/theme/index.scss'
+import Theme from '@leapmotor/design-base/packages/theme/index.scss'
 import { Button } from 'element-ui'
 import LPVxeTable from '../packages/table/index'
 

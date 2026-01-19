@@ -1,4 +1,4 @@
-const rules = require('./packages/eslint/v2/index.js')
+const rules = require('@leapmotor/design-base/packages/eslint/index.js')
 
 module.exports = {
   root: true,
