@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import theme from '../../packages/theme/index.scss'
+import theme from '@leapmotor/design-base/packages/theme/index.scss'
 
 export default {
-  data () {
+  data() {
     return {
       theme
     }

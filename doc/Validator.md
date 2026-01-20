@@ -5,7 +5,7 @@
 手机号正则
 
 ```javascript
-import { REGEX_CN_PHONE } from '@leapmotor/design/packages/utils/validator'
+import { REGEX_CN_PHONE } from '@leapmotor/design-base/packages/utils/validator'
 
 console.log(REGEX_CN_PHONE)
 // 11位手机号（13-9开头）
