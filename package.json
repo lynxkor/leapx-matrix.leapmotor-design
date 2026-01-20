@@ -1,6 +1,6 @@
 {
   "name": "@leapmotor/design",
-  "version": "0.1.10-alpha.1",
+  "version": "0.1.10-alpha.2",
   "description": "A rich interaction, lightweight, high performance frontend library based on Vue.",
   "main": "src/index.js",
   "repository": {
@@ -105,8 +105,5 @@
         "branches": 0
       }
     }
-  },
-  "dependencies": {
-    "@leapmotor/design-base": "0.0.2-alpha.0"
   }
 }
