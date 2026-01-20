@@ -6,6 +6,12 @@ const exportsConfig = {
     loaderOptions: {
       less: {
         javascriptEnabled: true
+      },
+      sass: {
+        sassOptions: {
+          quietDeps: true,
+          silenceDeprecations: ['import', 'legacy-js-api']
+        }
       }
     }
   }
@@ -20,10 +26,10 @@ exportsConfig.devServer = {
       target: 'https://iqs-sit.leapmotor.com',
       changeOrigin: true
     }
-  },
+  }
 }
 
-exportsConfig.chainWebpack = function (config) {
+exportsConfig.chainWebpack = function(config) {
   config.module
     .rule('md')
     .test(/\.md$/)
@@ -41,7 +47,7 @@ exportsConfig.chainWebpack = function (config) {
       // sanitize: true,
       // smartLists: true,
       // smartypants: true,
-      html: true,
+      html: true
       // highlight: renderHighlight,
     })
 }

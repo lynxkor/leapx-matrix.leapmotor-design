@@ -1,4 +1,4 @@
-@import '@leapmotor/design-base/packages/theme/index.scss';
+@use '@leapmotor/design-base/packages/theme/index.scss' as theme;
 
 .icon {
   width: 1em; 
@@ -9,7 +9,7 @@
 }
 
 :root {
-  --themColor: #{$--color-primary};
+  --themColor: #{theme.$color-primary};
 }
 
 button {

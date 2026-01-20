@@ -4,16 +4,16 @@
 ## 用法
 在scss中的用法
 ```scss
-@import '@leapmotor/design-base/packages/theme/index.scss';
+@use '@leapmotor/design-base/packages/theme/index.scss' as theme;
 
 // 直接使用
 .u-color {
-  color: $--color-primary;
+  color: theme.$color-primary;
 }
 
 // 在root定义后使用
 :root {
-  --themColor: #{$--color-primary};
+  --themColor: #{theme.$color-primary};
 }
 
 .el-button--primary {
