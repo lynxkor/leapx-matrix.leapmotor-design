@@ -1,6 +1,6 @@
 {
   "name": "@leapmotor/design",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A rich interaction, lightweight, high performance frontend library based on Vue.",
   "main": "src/index.js",
   "repository": {
@@ -17,7 +17,8 @@
     "test:unit": "vue-cli-service test:unit",
     "test": "vue-cli-service test:unit --coverage",
     "lint": "vue-cli-service lint",
-    "build:prod": "webpack --config build/webpack.config.build.js"
+    "build:prod": "webpack --config build/webpack.config.build.js",
+    "prepare": "husky"
   },
   "homepage": "https://git-external.leapmotor.com/business-front/webx/leapmotor-design",
   "author": "pan_ji2@leapmotor.com",
@@ -27,9 +28,9 @@
     "url": "https://git-external.leapmotor.com/business-front/webx/leapmotor-design/-/issues"
   },
   "peerDependencies": {
+    "@leapmotor/design-base": "0.0.2-alpha",
     "ali-oss": "^6.16.0",
     "element-ui": "^2.15.14",
-    "@leapmotor/design-base": "0.0.1",
     "moment": "^2.30.1",
     "sortablejs": "^1.15.6",
     "vxe-pc-ui": "^3.5.37",
@@ -57,14 +58,22 @@
     "eslint": "^8.56.0",
     "highlight.js": "^10.7.1",
     "html-loader": "^1.3.2",
+    "husky": "^9.1.7",
     "less": "^2.7.2",
     "less-loader": "^5.0.0",
+    "lint-staged": "^16.2.7",
     "markdown-loader": "^6.0.0",
     "marked": "^4.0.15",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
-    "sass": "^1.71.1",
-    "sass-loader": "^10.5.2",
+    "sass": "1.71.1",
+    "sass-loader": "10.5.2",
     "style-loader": "^2.0.0",
+    "stylelint": "^16.6.1",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-recommended": "^14.0.1",
+    "stylelint-config-recommended-vue": "^1.5.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^13.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-template-compiler": "^2.6.11",
@@ -75,7 +84,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,vue}": [
-      "vue-cli-service lint"
+      "eslint"
+    ],
+    "*.{css,scss,vue}": [
+      "stylelint"
     ]
   },
   "browserslist": [
