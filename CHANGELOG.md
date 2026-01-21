@@ -1,4 +1,20 @@
 # Change Log
+## v0.1.10
+_2026.01.20_
+- 升级sass语法
+- 屏蔽element-ui使用废弃api的警告
+- 新增stylelint
+- 新增husky
+
+## v0.1.9
+_2026.01.19_
+- 接入@leapmotor/design-base
+- 接入制品库
+
+## v0.1.7
+_2025.08.15_
+- `table`新增组件
+
 ## v0.1.6
 _2025.08.04_
 - `ossUploader` STS接口增加自定义app

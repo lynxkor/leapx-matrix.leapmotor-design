@@ -1,0 +1,17 @@
+@use '@leapmotor/design-base/packages/theme/index.scss' as theme;
+
+.icon {
+  width: 1em; 
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+:root {
+  --themColor: #{theme.$color-primary};
+}
+
+button {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
